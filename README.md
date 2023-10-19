@@ -9,9 +9,9 @@
 #### Inhalt
 
 - [KI_Newsletter](#KI_Newsletter)
-- [System Details](#System Details)
-- [Branching Model und Namensgebung](#Branching Model und Namensgebung)
-- [Commit Messages](#Commit Messages)
+- [System Details](#System-Details)
+- [Branching Model und Namensgebung](#Branching-Model-und-Namensgebung)
+- [Commit Messages](#Commit-Messages)
 - [Versionierung](#Versionierung)
 - [Vorlagen](#Vorlagen)
 - [Autoren](#Autoren)
