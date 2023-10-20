@@ -49,7 +49,7 @@ public class NlpService {
         }
         Map<String, Object> requestBody = Map.of(
                 "model", modelName,
-                "messages", List.of(
+                "messages", List.of( // TODO: Change language if needed of 'system'
                         Map.of("role", "system", "content", "You are a newsletter-specialist who writes Newsletter-Mails out of keywords and/or phrases."),
                         Map.of("role", "user", "content", prompt)
                 ),
