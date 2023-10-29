@@ -24,8 +24,6 @@ public class NlpService {
     @Value("${spring.ai.openai.api-key}")
     private String apiToken;
 
-    private final WebClient webClient;
-
     private final String CHATGPT_API_URL = "https://api.openai.com/v1/chat/completions";
 
     /**
@@ -62,7 +60,7 @@ public class NlpService {
             throw new RuntimeException("Failed to serialize request body to JSON", e);
         }
 
-        String jsonResponse = webClient.post()
+        String jsonResponse = WebClient.create().post()
                 .uri(CHATGPT_API_URL)
                 .header("Content-Type", "application/json")
                 .header("Authorization", "Bearer " + apiToken)
