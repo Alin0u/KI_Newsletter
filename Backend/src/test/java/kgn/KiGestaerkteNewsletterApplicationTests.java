@@ -1,4 +1,4 @@
-package KGN.KIgestaerkteNewsletter;
+package kgn;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
