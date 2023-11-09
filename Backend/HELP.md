@@ -1,7 +1,7 @@
 # Read Me First
 The following was discovered as part of building this project:
 
-* The original package name 'KGN.KI-gestaerkte-Newsletter' is invalid and this project uses 'KGN.KIgestaerkteNewsletter' instead.
+* The original package name 'KGN.KI-gestaerkte-Newsletter' is invalid and this project uses 'KGN.kgn' instead.
 
 # Getting Started
 

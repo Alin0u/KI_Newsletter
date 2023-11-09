@@ -1,7 +1,7 @@
-package KGN.KIgestaerkteNewsletter.controller;
+package kgn.controller;
 
-import KGN.KIgestaerkteNewsletter.dto.TextGenerationRequest;
-import KGN.KIgestaerkteNewsletter.service.NlpService;
+import kgn.dto.TextGenerationRequest;
+import kgn.service.NlpService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

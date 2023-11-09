@@ -1,4 +1,4 @@
-package KGN.KIgestaerkteNewsletter.dto;
+package kgn.dto;
 
 import lombok.Getter;
 import lombok.Setter;
