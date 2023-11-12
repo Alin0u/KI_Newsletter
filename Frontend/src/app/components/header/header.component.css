@@ -1,0 +1,41 @@
+header {
+  background-color: #034303;
+  color: white;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.login-button-container {
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+}
+
+.login-button {
+  background-color: #231F20;
+  border-radius: 13px;
+  border: 2px solid #FFFFFF;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.login-button:hover {
+  background-color: #FFFFFF;
+  color: black;
+}
+
+.login-button:active {
+  background-color: #000000;
+  color: white;
+}
+
+.logo-image {
+  max-width: 100px;
+  max-height: 100px;
+}

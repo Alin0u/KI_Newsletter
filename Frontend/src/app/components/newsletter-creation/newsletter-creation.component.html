@@ -1,0 +1,14 @@
+<div class="container">
+  <form (ngSubmit)="sendData()">
+    <!-- Input Field -->
+    <label for="inputField">Input:</label>
+    <input type="text" id="inputField" [(ngModel)]="inputText" name="inputText" placeholder="Type something" required>
+
+    <!-- Output Field -->
+    <label for="outputField">Output:</label>
+    <output id="outputField">{{ inputText }}</output>
+
+    <!-- Send Button -->
+    <button type="submit">Send</button>
+  </form>
+</div>
