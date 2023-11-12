@@ -1,16 +1,17 @@
 .container {
   padding: 20px;
   border: 1px solid #ccc;
-  text-align: center; /* Zentriere den Inhalt innerhalb des Containers */
+  text-align: center;
   background-color: deepskyblue;
 }
 
 label, input, output, button {
   display: block;
-  margin: 10px auto; /* Zentriere die Elemente horizontal innerhalb des Containers */
+  margin: 10px auto;
 }
 
 input, output {
   width: 200px;
+  padding: 10px;
   height: 200px;
 }

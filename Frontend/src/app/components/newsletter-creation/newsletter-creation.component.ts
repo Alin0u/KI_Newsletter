@@ -8,12 +8,12 @@ import { Component } from '@angular/core';
 export class NewsletterCreationComponent {
   inputText: string = '';
 
+  /**
+   * Sends data from the input field to the server or handles it as needed.
+   * This method is called when the send button is clicked.
+   */
   sendData() {
-    // Holen Sie den Wert aus dem Input-Feld
-    const inputFieldValue = (<HTMLInputElement>document.getElementById('inputField')).value;
-
-    // Führen Sie hier die Verarbeitung durch, z. B. Ändern des Output-Felds
-    const outputField = document.getElementById('outputField') as HTMLOutputElement;
-    outputField.textContent = `${inputFieldValue}`;
+    // TODO: sending logic
+    alert('Data sent: ' + this.inputText);
   }
 }
