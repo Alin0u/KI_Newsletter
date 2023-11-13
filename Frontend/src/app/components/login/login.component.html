@@ -1,0 +1,16 @@
+
+<div class="container">
+  <form>
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="userName" required [(ngModel)]="loginObj.userName">
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required [(ngModel)]="loginObj.password">
+
+    <button (click)="onLogin()" type="submit">Login</button>
+
+    <button (click)="navigateToPage('/signup')" type="submit">Sign Up</button>
+  </form>
+</div>
+
+

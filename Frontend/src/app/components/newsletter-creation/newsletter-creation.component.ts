@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-newsletter-creation',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./newsletter-creation.component.css']
 })
 export class NewsletterCreationComponent {
+  constructor(private router:Router) { }
+
   inputText: string = '';
 
   /**
@@ -15,5 +18,12 @@ export class NewsletterCreationComponent {
   sendData() {
     // TODO: sending logic
     alert('Data sent: ' + this.inputText);
+  }
+
+  /**
+   * Navigates between the pages.
+   */
+  navigateToPage(route: string): void {
+    this.router.navigate([route]).then(r => false);
   }
 }
