@@ -6,13 +6,15 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
 import {FormsModule} from "@angular/forms";
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    NewsletterCreationComponent
+    NewsletterCreationComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
