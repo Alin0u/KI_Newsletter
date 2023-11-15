@@ -1,3 +1,6 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
 <div class="containers">
   <div class="input-container">
     <form (ngSubmit)="sendData()">
@@ -9,10 +12,10 @@
     </form>
   </div>
   <div class="editor-container">
-  <form (ngSubmit)="sendMail()">
     <label for="outputField">Editor:</label>
-    <output id="editedMail">{{ outputText }}</output>
+    <div>
+      <angular-editor placeholder="Text will be generated" [(ngModel)]="outputText" [config]="editorConfig"></angular-editor>
+    </div>
     <button type="submit">Send Mail</button>
-  </form>
   </div>
 </div>

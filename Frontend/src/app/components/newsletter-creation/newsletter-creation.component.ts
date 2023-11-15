@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NlpService } from 'src/app/services/nlp.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+
 
 @Component({
   selector: 'app-newsletter-creation',
@@ -9,6 +11,24 @@ import { NlpService } from 'src/app/services/nlp.service';
 export class NewsletterCreationComponent {
   inputText: string = '';
   outputText: string = '';
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '60px',
+    translate: 'no',
+    toolbarHiddenButtons:[
+      [],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertVideo',
+      ]
+    ]
+  };
+
 
   constructor(private nlpService: NlpService) {}
 
@@ -29,6 +49,6 @@ export class NewsletterCreationComponent {
   }
 
   sendMail() {
-    // TODO: implement
+    // TODO: implement -> deleted the Form in the HTML file, because it influenced the editor's input
   }
 }
