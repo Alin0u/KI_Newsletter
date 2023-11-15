@@ -1,4 +1,7 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {AuthService} from "../../services/auth/auth.service";
+import {Router} from "@angular/router";
 
 
 @Component({
@@ -7,26 +10,28 @@ import {Component, OnInit} from '@angular/core';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent{
-  loginObj: any = {
-    userName:'',
-    password:''
-  }
+    form: FormGroup;
 
-  constructor() { }
+    constructor(private fb: FormBuilder, private authService: AuthService, private router: Router  ) {
+        this.form = this.fb.group({
+            username: ['', Validators.required],
+            password: ['', Validators.required],
+        });
+    }
 
-  /**
-   * Navigates between the pages.
-   */
-  navigateToPage(): void {
-    alert("Navigate");
-  }
-
-  /**
-   * Attempts to log in with the provided credentials.
-   * If successful, navigates to the home page; otherwise, logs an error and displays an alert.
-   */
-  onLogin() {
-    alert("Login")
-  }
-
+    // Method to handle form submission
+    submitForm(): void {
+        const { username, password } = this.form.value;
+        this.authService.login(username, password).subscribe(
+            (response) => {
+                console.log('Login success:', response);
+                alert("Success");
+                this.router.navigate(['']); //TODO routing to a new page
+            },
+            (error) => {
+                console.error('Login failed:', error);
+                alert("Failed")
+            }
+        );
+    }
 }

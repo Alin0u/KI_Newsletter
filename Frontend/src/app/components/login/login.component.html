@@ -1,12 +1,25 @@
-<div class="container">
-  <form>
+<form (ngSubmit)="submitForm()" [formGroup]="form" autocomplete="off">
+  <div>
     <label for="username">Username:</label>
-    <input type="text" id="username" name="userName" required [(ngModel)]="loginObj.userName">
+    <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            formControlName="username"
+    />
+  </div>
 
+  <div>
     <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required [(ngModel)]="loginObj.password">
+    <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            formControlName="password"
+    />
+  </div>
 
-    <button (click)="onLogin()" type="submit">Login</button>
-
-  </form>
-</div>
+  <div>
+    <button type="submit">Login</button>
+  </div>
+</form>
