@@ -11,14 +11,12 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class NewsletterCreationComponent {
   inputText: string = '';
   outputText: string = '';
-  htmlContent: string = 'Haaaaaallo';
 
   editorConfig: AngularEditorConfig = {
     editable: true,
-    placeholder: 'Enter text...',
     spellcheck: true,
     height: 'auto',
-    minHeight: '50px',
+    minHeight: '60px',
     translate: 'no',
     toolbarHiddenButtons:[
       [],
@@ -51,6 +49,6 @@ export class NewsletterCreationComponent {
   }
 
   sendMail() {
-    // TODO: implement
+    // TODO: implement -> deleted the Form in the HTML file, because it influenced the editor's input
   }
 }
