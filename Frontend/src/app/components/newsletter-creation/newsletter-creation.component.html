@@ -1,14 +1,18 @@
-<div class="container">
-  <form (ngSubmit)="sendData()">
-    <!-- Input Field -->
-    <label for="inputField">Input:</label>
-    <input type="text" id="inputField" [(ngModel)]="inputText" name="inputText" placeholder="Type something" required>
-
-    <!-- Output Field -->
-    <label for="outputField">Output:</label>
-    <output id="outputField">{{ inputText }}</output>
-
-    <!-- Send Button -->
-    <button type="submit">Send</button>
+<div class="containers">
+  <div class="input-container">
+    <form (ngSubmit)="sendData()">
+      <label for="inputField">Input:</label>
+      <input type="text" id="inputField" [(ngModel)]="inputText" name="inputText" placeholder="Input your keywords for the newsletter generation" required>
+      <label for="outputField">Output:</label>
+      <output id="outputField">{{ outputText }}</output>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+  <div class="editor-container">
+  <form (ngSubmit)="sendMail()">
+    <label for="outputField">Editor:</label>
+    <output id="editedMail">{{ outputText }}</output>
+    <button type="submit">Send Mail</button>
   </form>
+  </div>
 </div>
