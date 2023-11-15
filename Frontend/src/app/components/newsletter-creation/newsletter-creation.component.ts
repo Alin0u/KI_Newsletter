@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { NlpService } from 'src/app/services/nlp.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+
 
 @Component({
   selector: 'app-newsletter-creation',
@@ -9,6 +11,26 @@ import { NlpService } from 'src/app/services/nlp.service';
 export class NewsletterCreationComponent {
   inputText: string = '';
   outputText: string = '';
+  htmlContent: string = 'Haaaaaallo';
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    placeholder: 'Enter text...',
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '50px',
+    translate: 'no',
+    toolbarHiddenButtons:[
+      [],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertVideo',
+      ]
+    ]
+  };
+
 
   constructor(private nlpService: NlpService) {}
 
