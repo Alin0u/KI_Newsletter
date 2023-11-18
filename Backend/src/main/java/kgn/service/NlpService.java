@@ -2,6 +2,7 @@ package kgn.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kgn.dto.OpenAiResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,7 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class NlpService {
+    public static final String GPT_3_5_TURBO = "gpt-3.5-turbo";
     @Value("${spring.ai.openai.api-key}")
     private String apiToken;
 
@@ -46,7 +48,7 @@ public class NlpService {
             // TODO: get from frontend
         }
         Map<String, Object> requestBody = Map.of(
-                "model", modelName,
+                "model", GPT_3_5_TURBO, // TODO: Dropdown
                 "messages", List.of( // TODO: Change language if needed of 'system'
                         Map.of("role", "system", "content", "You are a newsletter-specialist who writes Newsletter-Mails out of keywords and/or phrases."),
                         Map.of("role", "user", "content", prompt)
@@ -60,16 +62,45 @@ public class NlpService {
             throw new RuntimeException("Failed to serialize request body to JSON", e);
         }
 
-        String jsonResponse = WebClient.create().post()
-                .uri(CHATGPT_API_URL)
-                .header("Content-Type", "application/json")
-                .header("Authorization", "Bearer " + apiToken)
-                .bodyValue(requestBodyJson)
-                .retrieve()
-                .bodyToMono(String.class)
-                .doOnNext(System.out::println)
-                .block();
+        if (prompt.contains("test")) {
+            // TODO: delete (for testing only)
+            return "Subject: Stay Dry in Style with Our Stunning New Umbrella Collection!\n" +
+                    "\n" +
+                    "Dear valued customer,\n" +
+                    "\n" +
+                    "We are delighted to introduce our latest collection of umbrellas that will not only keep you dry on those rainy days but also make a fashion statement. Our new line features a wide range of vibrant colors and patterns to add a pop of color to any gloomy weather.\n" +
+                    "\n" +
+                    "Embrace the beauty of nature with our pink and green umbrellas that perfectly capture the essence of spring. Designed with high-quality materials, these umbrellas are not only visually appealing but also durable, ensuring they will withstand even the harshest weather conditions.\n" +
+                    "\n" +
+                    "For those who prefer a more playful and fun approach, we have a selection of colorful umbrellas that are sure to brighten up your day. From bold stripes to trendy polka dots, our collection offers a variety of eye-catching designs that will make you stand out from the crowd.\n" +
+                    "\n" +
+                    "Not only are our umbrellas stylish, but they are also designed with practicality in mind. The canopy is large enough to provide ample coverage, keeping you protected from the rain, while the sturdy frame ensures stability even on windy days. Additionally, our umbrellas are lightweight and compact, making them easy to carry in your bag or briefcase wherever you go.\n" +
+                    "\n" +
+                    "Whether you need an umbrella for daily use, special occasions, or as a thoughtful gift, our new collection has something for everyone. Visit our website or stop by our store to explore the full range of options and find the perfect umbrella that matches your style and personality.\n" +
+                    "\n" +
+                    "Don't let the rain dampen your spirits. Embrace the showers with our fabulous new umbrella collection! Stay dry and stylish this season.\n" +
+                    "\n" +
+                    "Best regards,\n" +
+                    "\n" +
+                    "[Your Name]\n" +
+                    "[Your Company]";
+        } else {
+            OpenAiResponse openAiResponse = WebClient.create().post()
+                    .uri(CHATGPT_API_URL)
+                    .header("Content-Type", "application/json")
+                    .header("Authorization", "Bearer " + apiToken)
+                    .bodyValue(requestBodyJson)
+                    .retrieve()
+                    .bodyToMono(OpenAiResponse.class)
+                    .block();
+            if (openAiResponse != null && openAiResponse.getChoices() != null && !openAiResponse.getChoices().isEmpty()) {
+                OpenAiResponse.Choice.Message message = openAiResponse.getChoices().get(0).getMessage();
+                if (message != null) {
+                    return message.getContent();
+                }
+            }
+        }
 
-        return jsonResponse; // TODO: format output
+        return "No content available";
     }
 }
