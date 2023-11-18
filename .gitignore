@@ -1,5 +1,6 @@
 # Backend
 application-secure.properties
+/Backend/target/
 
 # Frontend
 # See http://help.github.com/ignore-files/ for more about ignoring files.
@@ -19,6 +20,7 @@ yarn-error.log
 .idea/
 .project
 .classpath
+*.class
 .c9/
 .vscode
 *.launch

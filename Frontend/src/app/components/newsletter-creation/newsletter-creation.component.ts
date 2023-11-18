@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { NlpService } from 'src/app/services/nlp.service';
+import { AngularEditorConfig } from '@kolkov/angular-editor';
+
 
 @Component({
   selector: 'app-newsletter-creation',
@@ -7,13 +10,45 @@ import { Component } from '@angular/core';
 })
 export class NewsletterCreationComponent {
   inputText: string = '';
+  outputText: string = '';
+
+  editorConfig: AngularEditorConfig = {
+    editable: true,
+    spellcheck: true,
+    height: 'auto',
+    minHeight: '60px',
+    translate: 'no',
+    toolbarHiddenButtons:[
+      [],
+      [
+        'customClasses',
+        'link',
+        'unlink',
+        'insertVideo',
+      ]
+    ]
+  };
+
+
+  constructor(private nlpService: NlpService) {}
 
   /**
    * Sends data from the input field to the server or handles it as needed.
    * This method is called when the send button is clicked.
    */
   sendData() {
-    // TODO: sending logic
-    alert('Data sent: ' + this.inputText);
+    // alert('Data has been sent. It will take a moment to generate the newsletter');
+    this.nlpService.generateNewsletter(this.inputText).subscribe(
+      (response) => {
+        this.outputText = response;
+      },
+      (error) => {
+        console.error('There was an error!', error);
+      }
+    );
+  }
+
+  sendMail() {
+    // TODO: implement -> deleted the Form in the HTML file, because it influenced the editor's input
   }
 }
