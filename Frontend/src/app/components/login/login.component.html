@@ -1,25 +1,18 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
 <form (ngSubmit)="submitForm()" [formGroup]="form" autocomplete="off">
-  <div>
-    <label for="username">Username:</label>
-    <input
-            type="text"
-            id="username"
-            placeholder="Username"
-            formControlName="username"
-    />
-  </div>
-
-  <div>
-    <label for="password">Password:</label>
-    <input
-            type="password"
-            id="password"
-            placeholder="Password"
-            formControlName="password"
-    />
-  </div>
-
-  <div>
-    <button type="submit">Login</button>
+  <div class="containers">
+    <div class="login-container">
+      <div class="input-container">
+        <input type="text" id="username" placeholder="Username" formControlName="username"/>
+      </div>
+      <div class="input-container">
+        <input type="password" id="password" placeholder="Password" formControlName="password"/>
+      </div>
+      <div>
+        <button type="submit">Login</button>
+      </div>
+    </div>
   </div>
 </form>
