@@ -8,13 +8,12 @@ import { NewsletterCreationComponent } from './components/newsletter-creation/ne
 import { FormsModule } from "@angular/forms";
 import { AngularEditorModule } from '@kolkov/angular-editor';
 
-
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    NewsletterCreationComponent
+    NewsletterCreationComponent,
   ],
   imports: [
     BrowserModule,
