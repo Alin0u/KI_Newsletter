@@ -7,6 +7,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
 import { FormsModule } from "@angular/forms";
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import {RouterModule, Routes} from '@angular/router'
+import {LoginComponent} from "./components/login/login.component";
+import { ReactiveFormsModule } from '@angular/forms';
+
+const appRoute: Routes = [
+  {path: '', component: LoginComponent},
+  {path: 'home', component: NewsletterCreationComponent}
+
+]
 
 @NgModule({
   declarations: [
@@ -14,12 +23,15 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     HeaderComponent,
     FooterComponent,
     NewsletterCreationComponent,
+    LoginComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AngularEditorModule,
+    RouterModule.forRoot(appRoute)
   ],
   providers: [],
   bootstrap: [AppComponent]
