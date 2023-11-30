@@ -69,7 +69,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home","/api/text-generation/generate").permitAll()
+                        .requestMatchers("/", "/home","/api/text-generation/generate","/api/mail/send").permitAll()
                         .anyRequest().authenticated()
                 )
                 .cors().and()

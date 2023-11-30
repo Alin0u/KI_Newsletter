@@ -60,11 +60,25 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
+			<!-- Spring Boot Starter for Mail -->
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-mail</artifactId>
+			</dependency>
+
+
+
+
 		<!-- Embedded database used for spring security -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>6.0.12</version>
 		</dependency>
 
 	</dependencies>

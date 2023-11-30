@@ -7,6 +7,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
 import { FormsModule } from "@angular/forms";
 import { AngularEditorModule } from '@kolkov/angular-editor';
+import {MailService} from "./services/mail/mail.service";
 
 @NgModule({
   declarations: [
@@ -21,7 +22,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
     HttpClientModule,
     AngularEditorModule,
   ],
-  providers: [],
+  providers: [MailService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
