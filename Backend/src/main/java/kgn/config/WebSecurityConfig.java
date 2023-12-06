@@ -119,8 +119,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         jwtAuthenticationProvider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/", "/api/auth").permitAll()
-                        .requestMatchers( "/home","/api/text-generation/generate").hasRole("ADMIN") // TODO: configure role-based login properly
+                        .requestMatchers("/login", "/api/auth").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth"))

@@ -17,12 +17,12 @@ export class AuthService {
         return this._jwtTokenKey;
     }
 
-    // Method for the login process
     login(username: string, password: string): Observable<any> {
         return this.http.post<any>('http://localhost:8080/api/auth', { username, password }).pipe(
             tap((response) => {
                 if (response && response.token) {
                     this.setTokenInCookie(response.token);
+                    this._isLoggedIn$.next(true);
                 }
             })
         );
@@ -45,4 +45,9 @@ export class AuthService {
         const token = this.getCookie(this.jwtTokenKey);
         this._isLoggedIn$.next(!!token);
     }
+
+      logout(): void {
+        document.cookie = 'jwt_token=; Max-Age=0';
+        this._isLoggedIn$.next(false);
+      }
 }

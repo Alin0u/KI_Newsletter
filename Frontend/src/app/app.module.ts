@@ -10,11 +10,12 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
 import { LoginComponent } from './components/login/login.component';
+import { AuthGuardService } from './services/auth-guard.service';
 import { TokenInterceptor } from './services/token.interceptor';
 
 const appRoute: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'home', component: NewsletterCreationComponent}
+  {path: 'login', component: LoginComponent},
+  {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]}
 ]
 
 @NgModule({

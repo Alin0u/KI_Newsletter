@@ -2,43 +2,43 @@
   background-color: rgba(3, 67, 3, 0.3);
   color: white;
   display: flex;
-  justify-content: space-between; /* This will push logo-container to the left and login-button-container to the right */
+  justify-content: space-between;
   align-items: center;
   width: 100%;
 }
 
 .logo-container {
-  padding: 10px; /* Adjust padding as needed */
-  display: flex;
-  align-items: center;
-}
-
-.login-button-container {
-  padding: 10px; /* Adjust padding as needed */
+  padding: 10px;
   display: flex;
   justify-content: flex-end;
   align-items: center;
 }
 
-.login-button {
-  background-color: #48664c;
-  border-radius: 13px;
-  border: 2px solid #FFFFFF;
+.logout-button-container {
+  padding: 10px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.logout-button {
+  background-color: transparent;
+  border: none;
   color: white;
   font-size: 18px;
   font-weight: bold;
   padding: 8px 16px;
+  padding-right: 5%;
   cursor: pointer;
+  transition: color 0.3s;
 }
 
-.login-button:hover {
-  background-color: #FFFFFF;
-  color: black;
+.logout-button:hover {
+  color: #000000;
 }
 
-.login-button:active {
-  background-color: #FFFFFF;
-  color: white;
+.logout-button:active {
+  color: #000000;
 }
 
 .logo-image {

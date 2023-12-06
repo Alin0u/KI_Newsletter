@@ -25,12 +25,10 @@ export class LoginComponent{
         this.authService.login(username, password).subscribe(
             (response) => {
                 console.log('Login success:', response);
-                alert("Success");
-                this.router.navigate(['home']);
+                this.router.navigate(['/']);
             },
             (error) => {
                 console.error('Login failed:', error);
-                alert("Failed")
             }
         );
     }
