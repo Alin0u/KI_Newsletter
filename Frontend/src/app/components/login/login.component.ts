@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../../services/auth/auth.service";
-import {Router} from "@angular/router";
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import { AuthService } from "../../services/auth.service";
+import { Router } from "@angular/router";
 import { ReactiveFormsModule } from '@angular/forms';
 
 
@@ -20,18 +20,15 @@ export class LoginComponent{
         });
     }
 
-    // Method to handle form submission
     submitForm(): void {
         const { username, password } = this.form.value;
         this.authService.login(username, password).subscribe(
             (response) => {
                 console.log('Login success:', response);
-                alert("Success");
-                this.router.navigate(['']); //TODO routing to a new page
+                this.router.navigate(['/']);
             },
             (error) => {
                 console.error('Login failed:', error);
-                alert("Failed")
             }
         );
     }

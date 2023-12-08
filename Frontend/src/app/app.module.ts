@@ -1,20 +1,21 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule, Routes } from '@angular/router'
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
-import { FormsModule } from "@angular/forms";
-import { AngularEditorModule } from '@kolkov/angular-editor';
-import {RouterModule, Routes} from '@angular/router'
-import {LoginComponent} from "./components/login/login.component";
-import { ReactiveFormsModule } from '@angular/forms';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { TokenInterceptor } from './services/token.interceptor';
 
 const appRoute: Routes = [
-  {path: '', component: LoginComponent},
-  {path: 'home', component: NewsletterCreationComponent}
-
+  {path: 'login', component: LoginComponent},
+  {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]}
 ]
 
 @NgModule({
@@ -33,7 +34,13 @@ const appRoute: Routes = [
     AngularEditorModule,
     RouterModule.forRoot(appRoute)
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
