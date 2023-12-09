@@ -20,7 +20,7 @@ public class MailService {
      *
      * @param javaMailSender The JavaMailSender used to send emails.
      */
-    @Autowired
+
     public MailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
