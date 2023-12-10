@@ -106,6 +106,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!-- Bulk Mail -->
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.9.3</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
