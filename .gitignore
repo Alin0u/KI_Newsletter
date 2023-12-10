@@ -1,8 +1,8 @@
 # Backend
 application-secure.properties
 /Backend/target/
-/Backend//src/main/resources/app.key
-/Backend//src/main/resources/app.pub
+app.pub
+app.key
 
 # Frontend
 # See http://help.github.com/ignore-files/ for more about ignoring files.

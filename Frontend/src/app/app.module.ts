@@ -7,6 +7,7 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MenubarComponent } from './components/menubar/menubar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
 import { LoginComponent } from './components/login/login.component';
@@ -15,7 +16,7 @@ import { TokenInterceptor } from './services/token.interceptor';
 import {MailService} from "./services/mail/mail.service";
 
 const appRoute: Routes = [
-  {path: 'login', component: LoginComponent},
+  {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
   {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]}
 ]
 
@@ -25,7 +26,8 @@ const appRoute: Routes = [
     HeaderComponent,
     FooterComponent,
     NewsletterCreationComponent,
-    LoginComponent
+    LoginComponent,
+    MenubarComponent
   ],
   imports: [
     ReactiveFormsModule,
@@ -34,6 +36,9 @@ const appRoute: Routes = [
     HttpClientModule,
     AngularEditorModule,
     RouterModule.forRoot(appRoute)
+  ],
+  exports: [
+    RouterModule
   ],
   providers: [
     {
