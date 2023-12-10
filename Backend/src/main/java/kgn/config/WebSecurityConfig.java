@@ -51,17 +51,6 @@ import java.security.interfaces.RSAPublicKey;
 @EnableWebSecurity
 @PropertySource("classpath:application-secure.properties")
 public class WebSecurityConfig implements WebMvcConfigurer {
-//    @Value("${user.username}")
-//    private String userUsername;
-//
-//    @Value("${user.password}")
-//    private String userPassword;
-//
-//    @Value("${admin.username}")
-//    private String adminUsername;
-//
-//    @Value("${admin.password}")
-//    private String adminPassword;
 
     private final RSAPublicKey publicKey;
     private final RSAPrivateKey privateKey;
@@ -143,7 +132,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
      */
     @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        System.out.println("authenticationManager");
         return authenticationConfiguration.getAuthenticationManager();
     }
 
@@ -194,33 +182,6 @@ public class WebSecurityConfig implements WebMvcConfigurer {
      */
     @Bean
     public PasswordEncoder passwordEncoder() {
-        System.out.println("passwordEncoder");
         return new BCryptPasswordEncoder();
     }
-
-
-//    /**
-//     * In-memory user details service configuration.
-//     * Populates the user details from properties.
-//     *
-//     * @return UserDetailsService
-//     */
-//    @Bean
-//    public UserDetailsService customUserDetailsService() {
-//        UserDetails user =
-//                User.withDefaultPasswordEncoder()
-//                        .username(userUsername)
-//                        .password(userPassword)
-//                        .roles("USER")
-//                        .build();
-//
-//        UserDetails admin =
-//                User.withDefaultPasswordEncoder()
-//                        .username(adminUsername)
-//                        .password(adminPassword)
-//                        .roles("ADMIN")
-//                        .build();
-//
-//        return new InMemoryUserDetailsManager(user, admin);
-//    }
 }

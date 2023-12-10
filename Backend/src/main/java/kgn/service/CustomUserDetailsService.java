@@ -23,7 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
      * @param userRepository The UserRepository to be used for user data access.
      */
     public CustomUserDetailsService(UserRepository userRepository) {
-        System.out.println("CustomUserDetailsService");
         this.userRepository = userRepository;
     }
 
