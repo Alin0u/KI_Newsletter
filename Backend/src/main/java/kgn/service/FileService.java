@@ -115,7 +115,6 @@ public class FileService {
      */
     public void createUserDirectory(String username) throws IOException {
         Path userDirectory = rootLocation.resolve(username);
-        System.out.println(userDirectory);
         if (!Files.exists(userDirectory)) {
             Files.createDirectories(userDirectory);
         }
