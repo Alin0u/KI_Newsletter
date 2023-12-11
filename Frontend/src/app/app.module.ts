@@ -13,11 +13,13 @@ import { NewsletterCreationComponent } from './components/newsletter-creation/ne
 import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TokenInterceptor } from './services/token.interceptor';
+import {MailService} from "./services/mail/mail.service";
 
 const appRoute: Routes = [
   {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
   {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]}
 ]
+
 
 @NgModule({
   declarations: [
@@ -44,7 +46,8 @@ const appRoute: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    MailService
   ],
   bootstrap: [AppComponent]
 })
