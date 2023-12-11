@@ -1,13 +1,25 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { RouterModule, Routes } from '@angular/router'
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AngularEditorModule } from '@kolkov/angular-editor';
+
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MenubarComponent } from './components/menubar/menubar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { NewsletterCreationComponent } from './components/newsletter-creation/newsletter-creation.component';
-import { FormsModule } from "@angular/forms";
-import { AngularEditorModule } from '@kolkov/angular-editor';
+import { LoginComponent } from './components/login/login.component';
+import { AuthGuardService } from './services/auth-guard.service';
+import { TokenInterceptor } from './services/token.interceptor';
 import {MailService} from "./services/mail/mail.service";
+
+const appRoute: Routes = [
+  {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
+  {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]}
+]
+
 
 @NgModule({
   declarations: [
@@ -15,14 +27,28 @@ import {MailService} from "./services/mail/mail.service";
     HeaderComponent,
     FooterComponent,
     NewsletterCreationComponent,
+    LoginComponent,
+    MenubarComponent
   ],
   imports: [
+    ReactiveFormsModule,
     BrowserModule,
     FormsModule,
     HttpClientModule,
     AngularEditorModule,
+    RouterModule.forRoot(appRoute)
   ],
-  providers: [MailService],
+  exports: [
+    RouterModule
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    MailService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

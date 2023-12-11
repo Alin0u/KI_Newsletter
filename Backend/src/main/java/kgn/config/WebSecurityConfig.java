@@ -1,49 +1,85 @@
 package kgn.config;
 
+import com.nimbusds.jose.jwk.JWK;
+import com.nimbusds.jose.jwk.JWKSet;
+import com.nimbusds.jose.jwk.RSAKey;
+import com.nimbusds.jose.jwk.source.ImmutableJWKSet;
+import com.nimbusds.jose.jwk.source.JWKSource;
+import com.nimbusds.jose.proc.SecurityContext;
+import kgn.util.KeyUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.BeanIds;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.JwtEncoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
+import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationProvider;
+import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
+import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
+import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import static org.springframework.security.config.Customizer.withDefaults;
+import java.nio.file.Files;
+import java.security.interfaces.RSAPrivateKey;
+import java.security.interfaces.RSAPublicKey;
+
 
 /**
- * Configuration class for web security settings.
- * Sets up the security filter chain and in-memory user details.
+ * WebSecurityConfig is a configuration class that sets up web security for the application.
+ * It is marked with {@link Configuration} and {@link EnableWebSecurity}. It also implements
+ * {@link WebMvcConfigurer} to provide additional MVC configuration.
+ *
+ * And it configures various aspects of security like CORS, JWT authentication and
+ * authorization, and the security filter chain.
  */
 @Configuration
 @EnableWebSecurity
-// TODO: delete when login-service properly configured
-@PropertySource("classpath:application-secure.properties") // for developing only (passwords and usernames are in application-secure.properties)
+@PropertySource("classpath:application-secure.properties")
 public class WebSecurityConfig implements WebMvcConfigurer {
-    @Value("${user.username}")
-    private String userUsername;
 
-    @Value("${user.password}")
-    private String userPassword;
-
-    @Value("${admin.username}")
-    private String adminUsername;
-
-    @Value("${admin.password}")
-    private String adminPassword;
+    private final RSAPublicKey publicKey;
+    private final RSAPrivateKey privateKey;
 
     /**
-     * This method sets up the CORS configuration for the entire application by allowing requests
-     * from specified origins and methods.
+     * Constructor for WebSecurityConfig. It initializes RSA public and private keys
      *
-     * @param registry the {@link CorsRegistry} to which CORS mappings are to be added. This is used
-     *                 to configure CORS settings for the application.
+     * @throws Exception if there is an issue in loading or parsing the keys.
+     */
+    public WebSecurityConfig() throws Exception {
+        try {
+            Resource publicKeyResource = new ClassPathResource("app.pub");
+            Resource privateKeyResource = new ClassPathResource("app.key");
+
+            String publicKeyContent = new String(Files.readAllBytes(publicKeyResource.getFile().toPath()));
+            String privateKeyContent = new String(Files.readAllBytes(privateKeyResource.getFile().toPath()));
+
+            this.publicKey = KeyUtils.convertPublicKey(publicKeyContent);
+            this.privateKey = KeyUtils.convertPrivateKey(privateKeyContent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to initialize WebSecurityConfig", e);
+        }
+    }
+
+    /**
+     * Configures CORS settings for the application.
+     *
+     * @param registry the {@link CorsRegistry} to add mappings to.
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -58,55 +94,94 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     }
 
     /**
-     * Defines the security filter chain.
-     * Configures access to various URLs and sets up login and logout.
+     * This method configures HTTP security, setting up authorization, CSRF protection,
+     * and other HTTP security settings.
      *
-     * @param http HttpSecurity
-     * @return SecurityFilterChain
-     * @throws Exception if an error occurs
+     * @param http        the {@link HttpSecurity} to configure.
+     * @param jwtDecoder  the {@link JwtDecoder} for decoding JWTs.
+     * @return {@link SecurityFilterChain} the configured security filter chain.
+     * @throws Exception if an error occurs during the configuration.
      */
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http, JwtDecoder jwtDecoder) throws Exception {
+        JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider(jwtDecoder);
+        jwtAuthenticationProvider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         http
-                .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/home","/api/text-generation/generate","/api/mail/send").permitAll()
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/login", "/api/auth").permitAll()
                         .anyRequest().authenticated()
                 )
-                .cors().and()
-                .cors(withDefaults())
-                .csrf().disable()
-                .formLogin().disable() // TODO: configure token-based auth.
-                .logout((logout) -> logout.permitAll())
-                .sessionManagement(sessionManagement ->
-                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth"))
+                .httpBasic(Customizer.withDefaults())
+                .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .exceptionHandling(exceptions -> exceptions
+                        .authenticationEntryPoint(new BearerTokenAuthenticationEntryPoint())
+                        .accessDeniedHandler(new BearerTokenAccessDeniedHandler())
                 );
-
         return http.build();
     }
 
     /**
-     * In-memory user details service configuration.
-     * Populates the user details from properties.
+     * Creates an {@link AuthenticationManager} bean. The authentication manager is responsible
+     * for processing authentication requests.
      *
-     * @return UserDetailsService
+     * @param authenticationConfiguration the {@link AuthenticationConfiguration} used to build the AuthenticationManager.
+     * @return {@link AuthenticationManager} the authentication manager.
+     * @throws Exception if an error occurs during creation.
+     */
+    @Bean(name = BeanIds.AUTHENTICATION_MANAGER)
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
+    }
+
+    /**
+     * Creates a {@link JwtDecoder} bean for decoding JWTs.
+     * This decoder uses the public RSA key configured in this class.
+     *
+     * @return {@link JwtDecoder} the JWT decoder.
      */
     @Bean
-    public UserDetailsService userDetailsService() {
-        // TODO: configure the login service properly
-        UserDetails user =
-                User.withDefaultPasswordEncoder()
-                        .username(userUsername)
-                        .password(userPassword)
-                        .roles("USER")
-                        .build();
+    public JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withPublicKey(this.publicKey).build();
+    }
 
-        UserDetails admin =
-                User.withDefaultPasswordEncoder()
-                        .username(adminUsername)
-                        .password(adminPassword)
-                        .roles("ADMIN")
-                        .build();
+    /**
+     * Creates a {@link JwtEncoder} bean for encoding JWTs.
+     * This encoder uses the RSA key pair configured in this class.
+     *
+     * @return {@link JwtEncoder} the JWT encoder.
+     */
+    @Bean
+    public JwtEncoder jwtEncoder() {
+        JWK jwk = new RSAKey.Builder(this.publicKey).privateKey(this.privateKey).build();
+        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        return new NimbusJwtEncoder(jwks);
+    }
 
-        return new InMemoryUserDetailsManager(user, admin);
+    /**
+     * Creates a {@link JwtAuthenticationConverter} bean. This converter is responsible for
+     * converting a JWT to an authenticated principal with granted authorities.
+     *
+     * @return {@link JwtAuthenticationConverter} the JWT authentication converter.
+     */
+    @Bean
+    public JwtAuthenticationConverter jwtAuthenticationConverter() {
+        JwtGrantedAuthoritiesConverter grantedAuthoritiesConverter = new JwtGrantedAuthoritiesConverter();
+        grantedAuthoritiesConverter.setAuthorityPrefix("");
+        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(grantedAuthoritiesConverter);
+        return jwtAuthenticationConverter;
+    }
+
+    /**
+     * Creates a {@link PasswordEncoder} bean. This encoder is used for encoding
+     * passwords in the application.
+     *
+     * @return {@link PasswordEncoder} the password encoder.
+     */
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
     }
 }
