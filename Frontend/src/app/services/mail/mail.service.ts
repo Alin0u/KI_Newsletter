@@ -7,13 +7,11 @@ import { Observable } from "rxjs";
 })
 export class MailService {
 // Base URL for the mail API
-  private baseUrl = 'http://localhost:8080/api/mail'; //TODO change
+  private baseUrl = 'http://localhost:8080/api/mail'; //TODO change URL
 
   // Liste mit Test-E-Mail-Adressen
-  private testEmails: string[] = [
-    "pijed99969@getmola.com",
-    "simonbissigoe@gmail.com",
-    "renata3@hegamespotr.com"
+  private testEmailAdresses: string[] = [ //TODO delete at the end
+    "test@mail.com"
   ];
 
 
@@ -22,7 +20,7 @@ export class MailService {
   /**
    * Creates a MailRequest object with the specified parameters.
    *
-   * @param to - The email address of the recipient.
+   * @param tos    The email addresses of the recipients.
    * @param subject - The subject of the email.
    * @param text - The main content of the email.
    * @returns A MailRequest object representing the email structure.
@@ -42,12 +40,12 @@ export class MailService {
    * @returns An Observable with the result of the HTTP request.
    */
   sendMailToBackend(text: string): Observable<any>{
-    const url = `${this.baseUrl}/send`;//TODO
-    const mailRequest = this.createMailRequest(this.testEmails, "test", text);//TODO Take Text from Textfield
+    const url = `${this.baseUrl}/send`;
+    const mailRequest = this.createMailRequest(this.testEmailAdresses, "test", text);//TODO add MailAdressse from ContactList
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': 'Basic ' + window.btoa('user:password')//TODO Authorization after Login
+      'Authorization': 'Basic ' + window.btoa('user:password')
     });
 
     return this.http.post(url, { tos: mailRequest.tos, subject: "Newsletter", text: mailRequest.text }, { headers });

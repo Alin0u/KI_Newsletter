@@ -12,6 +12,7 @@ public class MailRequest {
     private String subject;
     private String text;
 
+
     public MailRequest(List<String> tos, String subject, String text) {
         this.tos = tos;
         this.subject = subject;

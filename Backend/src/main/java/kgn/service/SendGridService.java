@@ -20,21 +20,28 @@ public class SendGridService {
     private final String fromEmail;
 
 
-
+    /**
+     * Constructor for the SendGridService class.
+     *
+     * @param sendGrid   The SendGrid bean automatically created by Spring Boot.
+     * @param fromEmail  The sender's email address read from application.properties.
+     */
     public SendGridService(
-            // get the SendGrid bean automatically created by Spring Boot
             @Autowired SendGrid sendGrid,
-            // read your email to use as sender from application.properties
             @Value("${twilio.sendgrid.from-email}") String fromEmail
     ) {
         this.sendGrid = sendGrid;
         this.fromEmail = fromEmail;
     }
 
+    /**
+     * Sends the specified email using the SendGrid API.
+     *
+     * @param mail The email message to be sent.
+     */
     private void sendEmailToSendGrid(Mail mail) {
         try {
             // set the SendGrid API endpoint details as described
-            // in the doc (https://docs.sendgrid.com/api-reference/mail-send/mail-send)
             Request request = new Request();
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
@@ -54,6 +61,13 @@ public class SendGridService {
         }
     }
 
+    /**
+     * Sends bulk emails to multiple recipients.
+     *
+     * @param tos     The list of email addresses to send the emails to.
+     * @param subject The subject of the email.
+     * @param text    The HTML content of the email.
+     */
     public void sendBulkEmails(List<String> tos, String subject, String text) {
         // specify the email details
         Mail mail = new Mail();
@@ -69,9 +83,7 @@ public class SendGridService {
         });
         mail.addPersonalization(personalization);
 
-        // send the bulk email
         sendEmailToSendGrid(mail);
-
     }
 
 }
