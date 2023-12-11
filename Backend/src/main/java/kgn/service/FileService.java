@@ -18,7 +18,7 @@ public class FileService {
     private final Path rootLocation;
 
     public FileService() {
-        this.rootLocation = Paths.get("src/main/resources/contactlists");
+        this.rootLocation = Paths.get("Backend/contactlists").toAbsolutePath();
     }
 
     /**
@@ -115,6 +115,7 @@ public class FileService {
      */
     public void createUserDirectory(String username) throws IOException {
         Path userDirectory = rootLocation.resolve(username);
+        System.out.println(userDirectory);
         if (!Files.exists(userDirectory)) {
             Files.createDirectories(userDirectory);
         }

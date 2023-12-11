@@ -57,7 +57,6 @@ public class AuthController {
      */
     @PostMapping("")
     public ResponseEntity<?> auth(@RequestBody UserLoginDto userLoginDto) {
-        System.out.println("Attempting auth for user: " + userLoginDto.getUsername());
         try {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(

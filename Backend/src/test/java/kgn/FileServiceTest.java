@@ -24,7 +24,7 @@ class FileServiceTest {
 
     @AfterEach
     void clearUp() throws IOException {
-        Path testUserDirectory = Paths.get("src/main/resources/contactlists", "testuser");
+        Path testUserDirectory = Paths.get("Backend/contactlists", "testuser");
         if (Files.exists(testUserDirectory)) {
             deleteDirectoryRecursively(testUserDirectory);
         }
@@ -35,7 +35,7 @@ class FileServiceTest {
         String username = "testuser";
         String filename = "testlist.txt";
         fileService.createContactList(username, filename);
-        assertTrue(Files.exists(Paths.get("src/main/resources/contactlists", username, filename)));
+        assertTrue(Files.exists(Paths.get("Backend/contactlists", username, filename)));
     }
 
     @Test
@@ -44,7 +44,7 @@ class FileServiceTest {
         String filename = "deleteTestList.txt";
         fileService.createContactList(username, filename);
         fileService.deleteContactList(username, filename);
-        assertFalse(Files.exists(Paths.get("src/main/resources/contactlists", username, filename)));
+        assertFalse(Files.exists(Paths.get("contactlists", username, filename)));
     }
 
     @Test
