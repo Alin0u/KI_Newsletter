@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 @ComponentScan(basePackages = {"kgn"})
-@SpringBootApplication //(exclude = {SecurityAutoConfiguration.class }) // activate for testing only
+@SpringBootApplication
 public class KiGestaerkteNewsletterApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(KiGestaerkteNewsletterApplication.class, args);

@@ -60,11 +60,17 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
-		<!-- JWT Library -->
+
+		<!-- Embedded database used for spring security -->
 		<dependency>
 			<groupId>io.jsonwebtoken</groupId>
 			<artifactId>jjwt</artifactId>
 			<version>0.9.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>6.0.12</version>
 		</dependency>
 
 		<dependency>
@@ -113,7 +119,7 @@
 			<version>4.9.3</version>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 	<build>
 		<plugins>

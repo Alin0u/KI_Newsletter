@@ -34,7 +34,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-
 import java.nio.file.Files;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
@@ -109,7 +108,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         jwtAuthenticationProvider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/api/auth","/api/mail/send").permitAll()
+                        .requestMatchers("/login", "/api/auth").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth"))

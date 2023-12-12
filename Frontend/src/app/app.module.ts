@@ -20,6 +20,7 @@ const appRoute: Routes = [
   {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]}
 ]
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,6 @@ const appRoute: Routes = [
     },
     MailService
   ],
-
   bootstrap: [AppComponent]
 })
 export class AppModule { }
