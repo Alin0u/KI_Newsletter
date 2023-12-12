@@ -1,42 +1,61 @@
 package kgn.controller;
 
-import kgn.service.MailService;
-import kgn.service.SendGridService;
+import kgn.MailRequest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Value;
-import jakarta.mail.MessagingException;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+
+@ExtendWith(MockitoExtension.class)
 class MailControllerTest {
-
-    @Mock
-    private MailService mailService;
-
-    @Mock
-    private SendGridService sendGridService;
 
     @InjectMocks
     private MailController mailController;
 
-    @Value("${spring.sendgrid.api-key}")
-    private String sendGridApiKey;
-
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
-    void testSendMailWithSendGridApiKeySet() throws MessagingException {
+    void sendMail_withOneAddress()  {
+        // Arrange
+        MailRequest mailRequest = new MailRequest(Collections.singletonList("to@example.com"), "Subject", "Text");
+
+        // Act
+        ResponseEntity<String> response = mailController.sendMail(mailRequest);
+
+        // Assert
+        assertEquals("{\"message\": \"E-Mail erfolgreich gesendet!\"}", response.getBody());
 
     }
 
     @Test
-    void testSendMailWithSendGridApiKeyNotSet() throws MessagingException {
+    void sendMail_withAddresses()  {
+        // Arrange
+        List<String> toAddresses = IntStream.range(0, 500)
+                .mapToObj(i -> "to" + i + "@example.com")
+                .collect(Collectors.toList());
+
+        MailRequest mailRequest = new MailRequest(toAddresses, "Subject", "Text");
+
+        // Act
+        ResponseEntity<String> response = mailController.sendMail(mailRequest);
+
+        // Assert
+        assertEquals("{\"message\": \"E-Mail erfolgreich gesendet!\"}", response.getBody());
 
     }
 }
