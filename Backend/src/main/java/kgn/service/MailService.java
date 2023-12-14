@@ -2,11 +2,11 @@ package kgn.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * Service class for handling email-related functionality using JavaMailSender.
@@ -20,7 +20,7 @@ public class MailService {
      *
      * @param javaMailSender The JavaMailSender used to send emails.
      */
-    @Autowired
+
     public MailService(JavaMailSender javaMailSender) {
         this.javaMailSender = javaMailSender;
     }
@@ -33,7 +33,7 @@ public class MailService {
      * @param text    The main content of the email.
      * @throws MessagingException If an error occurs during the messaging process.
      */
-    public void sendMail(String to, String subject, String text) throws MessagingException {
+    public void sendOneMail(String to, String subject, String text) throws MessagingException {
 
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -43,7 +43,20 @@ public class MailService {
             helper.setText(text, true);
 
             javaMailSender.send(message);
+    }
 
+    /**
+     * Sends emails to a list of recipients with the specified subject and text content.
+     *
+     * @param toList  The list of email addresses of the recipients.
+     * @param subject The subject of the email.
+     * @param text    The main content of the email.
+     * @throws MessagingException If an error occurs during the messaging process.
+     */
+    public void sendMails(List<String> toList, String subject, String text) throws MessagingException {
+        for (String to : toList) {
+            sendOneMail(to, subject, text);
+        }
     }
 
 }

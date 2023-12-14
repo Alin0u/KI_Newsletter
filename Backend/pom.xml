@@ -60,11 +60,6 @@
 			<artifactId>slf4j-api</artifactId>
 		</dependency>
 
-			<!-- Spring Boot Starter for Mail -->
-			<dependency>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-starter-mail</artifactId>
-			</dependency>
 
 		<!-- Embedded database used for spring security -->
 		<dependency>
@@ -104,6 +99,25 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Spring Boot Starter for Mail -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-mail</artifactId>
+        </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-messaging</artifactId>
+			<version>6.0.12</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Bulk Mail -->
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.9.3</version>
+		</dependency>
 
     </dependencies>
 
