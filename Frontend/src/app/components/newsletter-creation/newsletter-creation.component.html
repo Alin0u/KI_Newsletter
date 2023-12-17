@@ -16,6 +16,8 @@
     <div>
       <angular-editor placeholder="Text will be generated" [(ngModel)]="outputText" [config]="editorConfig"></angular-editor>
     </div>
-    <button type="submit">Send Mail</button>
+    <form (ngSubmit)="sendMail()">
+      <button type="submit">Send Mail</button>
+    </form>
   </div>
 </div>

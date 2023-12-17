@@ -14,6 +14,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { ContactlistComponent } from './components/contactlist/contactlist.component';
+import {MailService} from "./services/mail/mail.service";
 
 const appRoute: Routes = [
   {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
@@ -47,7 +48,8 @@ const appRoute: Routes = [
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true
-    }
+    },
+    MailService
   ],
   bootstrap: [AppComponent]
 })

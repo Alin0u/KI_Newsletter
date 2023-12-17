@@ -5,18 +5,25 @@
 ### application-secure.properties
 Copy the file application-secure-sample.properties to application-secure.properties
 
-### API-Key
+### API-Key for OpenAI
 1. Login to you OpenAI-Account: [OpenAI](https://openai.com/)
 2. Navigate to API-Keys: [API-Keys](https://platform.openai.com/api-keys)
 3. Create a new Key
 4. Insert it into your application-secure.properties file ('spring.ai.openai.api-key=')
+
+### API-Key for sendGrid
+1. Login to your sendGrid-Account:  [sendGrid](https://sendgrid.com/)
+2. Navigate to Settings and then to API-Keys
+3. Create a sendGrid Key
+4. Insert it into your application-secure.properties file ('spring.sendgrid.api-key')
+5. Also add your email adress into the ('twilio.sendgrid.from-email')
 
 ### Database
 For the login to work properly you need a database (in our case it's a mariadb)
 
 1. Install mariadb locally 
 2. Create a database 
-3. Create a table which looks like this:
+3. Create a table 'users' which looks like this:
 
 +----+--------------------------------------------------------------+-------+----------+
 | id | password                                                     | role  | username |
