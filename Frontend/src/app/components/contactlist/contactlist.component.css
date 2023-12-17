@@ -73,7 +73,7 @@ button:hover {
 }
 
 .button-container button {
-  margin: 0 5px; 
+  margin: 0 5px;
 }
 
 @media (max-width: 768px) {
@@ -86,4 +86,36 @@ button:hover {
     min-width: 100%;
     max-width: 100%;
   }
+}
+
+.list-container ul {
+  list-style: none;
+  padding: 0;
+}
+
+.list-container li {
+  padding: 10px 20px;
+  background-color: #48664c;
+  color: white;
+  border: black;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  margin: 5px 0;
+  text-align: center;
+}
+
+.list-container li:hover {
+  background-color: #54785a;
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+  transform: translateY(-1px);
+}
+
+.list-container li.selected {
+  background-color: #54785a; /* Oder eine andere Farbe, um die Auswahl hervorzuheben */
+}
+
+.file-input {
+  display: none;
 }

@@ -1,8 +1,16 @@
 <div class="containers">
   <div class="list-container">
     <p>Contact Lists</p>
-    <div *ngFor="let list of contactLists" (click)="onSelectContactList(list)">
-      <!--{{ list.name }}-->
+    <ul>
+      <li *ngFor="let list of contactLists"
+          [class.selected]="list === selectedList"
+          (click)="onSelectContactList(list)">
+        {{ list.name }}
+      </li>
+    </ul>
+    <div class="button-container">
+      <button type="button" (click)="addContactList()">Add</button>
+      <button type="button" class="delete-button" (click)="deleteContactList()">Delete</button>
     </div>
   </div>
   <div class="editor-container">
@@ -10,7 +18,10 @@
     <div class="button-container">
       <button type="button" (click)="saveContacts()">Save</button>
       <button type="button" class="delete-button" (click)="deleteContacts()">Delete</button>
+      <input type="file" class="file-input" (change)="onFileSelect($event)" accept=".csv">
+      <button type="button" (click)="triggerFileInput()">Upload CSV</button>
     </div>
+
   </div>
 </div>
 
