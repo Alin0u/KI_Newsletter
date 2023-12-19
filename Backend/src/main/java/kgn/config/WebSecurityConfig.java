@@ -108,7 +108,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         jwtAuthenticationProvider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/api/auth").permitAll()
+                        .requestMatchers("/login", "/api/auth","/api/list", "/api/list/{filename}").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth"))

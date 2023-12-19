@@ -1,5 +1,6 @@
 package kgn.service;
 
+import kgn.model.ContactListData;
 import org.springframework.stereotype.Service;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -28,16 +29,23 @@ public class FileService {
      * @return a list of filenames representing the user's contact lists
      * @throws IOException if the user directory does not exist
      */
-    public List<String> listContactLists(String username) throws IOException {
+    public List<ContactListData> listContactLists(String username) throws IOException {
         Path userDirectory = rootLocation.resolve(username);
         if (!Files.exists(userDirectory)) {
             throw new IOException("User directory does not exist");
         }
 
-        File folder = userDirectory.toFile();
-        return Files.list(folder.toPath())
+        return Files.list(userDirectory)
                 .filter(Files::isRegularFile)
-                .map(path -> path.getFileName().toString())
+                .map(path -> {
+                    try {
+                        String content = new String(Files.readAllBytes(path));
+                        return new ContactListData(path.getFileName().toString(), content);
+                    } catch (IOException e) {
+                        // Fehlerbehandlung hier
+                        throw new RuntimeException("Error reading file: " + path, e);
+                    }
+                })
                 .collect(Collectors.toList());
     }
 
