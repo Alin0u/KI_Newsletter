@@ -1,53 +1,50 @@
-
 `ToDo`
-![GitHub repo size](https://img.shields.io/github/repo-size/Alin0u/KI_Newsletter)
-![GitHub top language](https://img.shields.io/github/languages/top/Alin0u/KI_Newsletter)
-![GitHub last commit](https://img.shields.io/github/last-commit/Alin0u/KI_Newsletter)
+![GitHub repo size](https://img.shields.io/github/repo-size/Alin0u/AI_Newsletter)
+![GitHub top language](https://img.shields.io/github/languages/top/Alin0u/AI_Newsletter)
+![GitHub last commit](https://img.shields.io/github/last-commit/Alin0u/AI_Newsletter)
 
-# KI_Newsletter
+# AI_Newsletter
 
-#### Inhalt
+#### Contents
 
-- [KI_Newsletter](#KI_Newsletter)
-- [System Details](#System-Details)
-- [Branching Model und Namensgebung](#Branching-Model-und-Namensgebung)
-- [Commit Messages](#Commit-Messages)
-- [Versionierung](#Versionierung)
-- [Vorlagen](#Vorlagen)
-- [Autoren](#Autoren)
-- [Nutzungsbedingung](#Nutzungsbedingung)
+- [AI_Newsletter](#ai_newsletter)
+- [System Details](#system-details)
+- [Branching Model and Naming](#branching-model-and-naming)
+- [Commit Messages](#commit-messages)
+- [Versioning](#versioning)
+- [Templates](#templates)
+- [Authors](#authors)
+- [Terms of Use](#terms-of-use)
 
 ## System Details
 
-Version 0.1.0 
+Version 0.8.7
 
-Programmiersprache: Javascript, HTML, CSS
+Programming languages: JavaScript, HTML, CSS
 
 Frameworks: Spring, Angular
 
 ## Installation
-`ToDo`
 
-### Abhängigkeiten
-`ToDo`
+### Dependencies
+- node Version 20.9.0
+- Maven 3.9.5
+- Spring 3.1.5
 
-### Installation des Packets
+### Package Installation
 
-Das Programm lässt sich nach der folgenden Anleitung installieren:
-`ToDo`
+The program can be installed locally using the following instructions:
+[Installation](INSTRUCTIONS.md)
 
-## Nutzung
-`ToDo`
+## Branching Model and Naming
 
-## Branching Model und Namensgebung 
+We use a simplified version of [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
 
-Wir verwenden eine vereinfachte Version von [Gitflow](https://www.atlassian.com/de/git/tutorials/comparing-workflows/gitflow-workflow)
-
-| Name        | Beschreibung                                                                                                |
+| Name        | Description                                                                                                 |
 |:------------|:------------------------------------------------------------------------------------------------------------|
-| `main`      | Der Master-Zweig enthält den Produktionscode und speichert die offizielle Release-Historie.                 |
-| `develop`   | Der Entwicklungszweig enthält Vorproduktionscode und dient als Integrationszweig für Funktionen.            |
-| _`feature`_ | Jede neue Funktion sollte in einem eigenen Zweig untergebracht werden, der zur Sicherung/Kollaboration in das zentrale Repository verschoben werden kann. 
+| `main`      | The master branch contains the production code and stores the official release history.                     |
+| `develop`   | The development branch contains pre-production code and serves as an integration branch for features.        |
+| _`feature`_ | Each new feature should be placed in its own branch, which can be moved to the central repository for backup/collaboration. |
 
 ## Commit Messages
 
@@ -59,49 +56,44 @@ Beispiel:
 feat(Save Button): Implemented save button [MF-1]
 ```
 
-Die folgenden Typen werden verwendet:
 
-* ci: Änderung unserer CI Konfigurationsdateien oder Skripts
-* docs: Dokumentationsänderungen
-* feat: Neues Feature
-* fix: Beheben eines Bugs
-* refactor: Änderungen des Codes zur Verbesserung der Lesbarkeit
-* test: Hinzufügen von Tests oder Anpassung der Tests
+The following types are used:
 
-_Für weitere Informationen:
+* ci: Changes to our CI configuration files or scripts
+* docs: Documentation changes
+* feat: A new feature
+* fix: A bug fix
+* refactor: Code changes to improve readability
+* test: Adding or adjusting tests
+
+_For more information:
 [Angular Commit Message Guidelines](https://www.conventionalcommits.org/en/v1.0.0/)_
 
-## Versionierung
+## Versioning
 
-* Major Release: Änderung an der Software (nicht kompatibel mit vorherigen Versionen)
-* Minor Release: neue Funktionalitäten (rückwärts kompatibel)
-* Patch: Fehlerbehebung
+* Major Release: Change to the software (not compatible with previous versions)
+* Minor Release: New functionality (backward compatible)
+* Patch: Bug fix
 
-Format: 1.0.0 
+Format: 1.0.0
 
-## Vorlagen
-Wir haben die folgenden Webseiten als Hilfen und Vorlagen für unser Readme/Projekt verwendet. Ein grosses Danke an dieser Stelle an die Macher dieser Seiten.
+## Templates
+We used the following websites as aids and templates for our Readme/Project. A big thank you to the creators of these pages.
 
-- [Open Soure Readme](https://github.com/cfpb/open-source-project-template/blob/main/README.md)
+- [Open Source Readme](https://github.com/cfpb/open-source-project-template/blob/main/README.md)
 - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
-- [Versionierung](https://semver.org/)
+- [Versioning](https://semver.org/)
 - [How to be a good Open Source Project Owner](https://www.freecodecamp.org/news/ultimate-owners-guide-to-open-source/)
 
-Neben der oben erwähnten Seiten, haben wir uns ausserdem von anderen Github-Repositories inspirieren lassen.
+In addition to the above-mentioned sites, we have also drawn inspiration from other GitHub repositories.
 
-## Autoren
-Erstellt durch:
+## Authors
+Created by:
 - [@smokisimon](https://github.com/smokisimon) (bissisi1)
 - [@Alin0u](https://www.github.com/alin0u) (spangali)
 
-## Beitrag
-Dieses Projekt wurde im Rahmen der Projektarbeit des Teilzeitstudiums im 7. Semesters and der Züricher Hochschule für angewandte Wissenschaften
-in Zürich erstellt.  
+## Contribution
+This project was created as part of the project work for the part-time studies in the 7th semester at the Zurich University of Applied Sciences in Zurich.
 
-## Nutzungsbedingung
-1. [Nutzungsbedingungen](Terms.md)
-2. [Lizenz](LICENSE)
-
-
-
-
+## Terms of Use
+[License](LICENSE)
