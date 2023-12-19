@@ -14,6 +14,7 @@ export class ContactlistComponent implements OnInit {
     selectedContacts = '';
     selectedList: any = null;
     selectedFile: File | null = null;
+    displayMode: 'editor' | 'contacts' = 'contacts';
 
     /**
      * Constructs the ContactlistComponent.
@@ -49,7 +50,6 @@ export class ContactlistComponent implements OnInit {
      * @param list The selected contact list.
      */
     onSelectContactList(list: any): void {
-        console.log("Ausgewählte Liste:", list);
         this.selectedList = list;
         this.selectedContacts = list.content;
     }
@@ -73,7 +73,6 @@ export class ContactlistComponent implements OnInit {
         if (this.selectedFile) {
             this.importCSV();
         }
-        // Setze das File-Input-Element zurück
         target.value = '';
     }
 
@@ -81,16 +80,20 @@ export class ContactlistComponent implements OnInit {
      * Adds a new contact list.
      */
     addContactList(): void {
-        const newListName = window.prompt("Name der neuen Kontaktliste:");
+        const newListName = window.prompt("Enter the name for the contact list:");
         if (newListName) {
-            this.contactListService.createContactList(newListName).subscribe(
-                response => {
-                    console.log('Neue Kontaktliste erstellt:', response);
-                    this.contactLists.push({name: newListName, contacts: ""});
-                    this.loadContactLists(); // Aktualisieren Sie die Kontaktlisten
-                },
-                error => console.error('Fehler beim Erstellen der Kontaktliste:', error)
-            );
+            const listExists = this.contactLists.some(list => list.name === newListName);
+            if (listExists) {
+                        alert("A list with this name already exists. Please choose a different name.");
+            } else {
+                this.contactListService.createContactList(newListName).subscribe(
+                    response => {
+                        this.contactLists.push({name: newListName, contacts: ""});
+                        this.loadContactLists();
+                    },
+                    error => console.error('Error when creating the contact list:', error)
+                );
+            }
         }
     }
 
@@ -101,13 +104,14 @@ export class ContactlistComponent implements OnInit {
         if (this.selectedList) {
             this.contactListService.deleteContactList(this.selectedList.name).subscribe(
                 response => {
-                    console.log('Kontaktliste gelöscht', response);
-                    this.loadContactLists(); // Aktualisieren Sie die Kontaktlisten nach dem Löschen
+                    this.selectedContacts = '';
+                    this.selectedList = null;
+                    this.loadContactLists();
                 },
                 error => console.error(error)
             );
         } else {
-            alert("Bitte wähle zuerst eine Liste zum Löschen aus.");
+            alert("Please select a list to delete first.");
         }
     }
 
@@ -118,7 +122,7 @@ export class ContactlistComponent implements OnInit {
     importCSV(): void {
         if (this.selectedFile) {
             if (!this.selectedList) {
-                alert("Bitte wähle zuerst eine Liste aus, bevor du eine CSV-Datei importierst.");
+                alert("Please select a list first before importing a CSV file.");
                 return;
             }
 
@@ -137,7 +141,7 @@ export class ContactlistComponent implements OnInit {
      * @param csvData The CSV data as a string.
      */
     processCSVData(csvData: string): void {
-        this.selectedContacts = this.processContacts(csvData); // Bereits ein String
+        this.selectedContacts = this.processContacts(csvData);
         this.selectedList.contacts = this.selectedContacts;
     }
 
@@ -159,13 +163,16 @@ export class ContactlistComponent implements OnInit {
      */
     saveContactList(): void {
         if (this.selectedList) {
-            this.selectedList.contacts = this.selectedContacts; // Direkte Zuweisung des String
+            this.selectedList.contacts = this.selectedContacts;
             this.contactListService.saveContactList(this.selectedList.name, this.selectedList.contacts).subscribe(
-                response => console.log('Kontaktlisten gespeichert', response),
+                response => {
+                    console.log('Contact lists saved', response);
+                    this.loadContactLists();
+                },
                 error => console.error(error)
             );
         } else {
-            console.error('Keine Liste ausgewählt');
+            console.error('No list selected');
         }
     }
 
@@ -180,7 +187,40 @@ export class ContactlistComponent implements OnInit {
             .split(/,|\n/)
             .map(email => email.trim())
             .filter(email => this.isValidEmail(email))
-            .join(', '); // Konvertiere zurück in einen String
+            .join(', ');
+    }
+
+     addNewContact(): void {
+        const newContactEmail = window.prompt('Enter the new contact\'s email:');
+        if (newContactEmail && this.isValidEmail(newContactEmail)) {
+          if (this.selectedContacts.split(', ').includes(newContactEmail)) {
+            alert('This email is already in the list.');
+            return;
+          }
+
+          this.selectedContacts = this.selectedContacts
+            ? `${this.selectedContacts}, ${newContactEmail}`
+            : newContactEmail;
+
+          this.selectedList.contacts = this.selectedContacts;
+          this.saveContactList();
+        } else if (newContactEmail) {
+          alert('Please enter a valid email address.');
+        }
+     }
+
+    /**
+     * Deletes a contact from the selected contact list.
+     *
+     * @param contactEmail The email of the contact to be deleted.
+     */
+    deleteContact(contactEmail: string): void {
+        this.selectedContacts = this.selectedContacts
+          .split(', ')
+          .filter(email => email !== contactEmail)
+          .join(', ');
+        this.selectedList.contacts = this.selectedContacts;
+        this.saveContactList();
     }
 }
 
