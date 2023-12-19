@@ -50,4 +50,5 @@ export class AuthService {
         document.cookie = 'jwt_token=; Max-Age=0';
         this._isLoggedIn$.next(false);
       }
+
 }
