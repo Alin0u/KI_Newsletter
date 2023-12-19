@@ -10,6 +10,7 @@ import lombok.Setter;
  */
 @Getter @Setter
 public class TextGenerationRequest {
-    public String modelName;
     public String prompt;
+    public String style;
+    public String length;
 }

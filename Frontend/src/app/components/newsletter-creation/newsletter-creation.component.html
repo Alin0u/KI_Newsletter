@@ -6,12 +6,36 @@
     <form (ngSubmit)="sendData()">
       <label for="inputField">Input:</label>
       <input type="text" id="inputField" [(ngModel)]="inputText" name="inputText" placeholder="Input your keywords for the newsletter generation" required>
+
+      <label for="styleDropdown">Style:</label>
+      <select id="styleDropdown" [(ngModel)]="selectedStyle" name="selectedStyle">
+        <option value="standard">Standard</option>
+        <option value="funny">Funny</option>
+        <option value="serious">Serious</option>
+        <option value="professional">Professional</option>
+      </select>
+
+      <label for="lenghtDropdown">Lenght:</label>
+      <select id="lenghtDropdown" [(ngModel)]="chosenLenght" name="chosenLenght">
+        <option value="short">Short</option>
+        <option value="normal">Normal</option>
+        <option value="sensitively">Sensitively</option>
+      </select>
+
       <label for="outputField">Output:</label>
       <output id="outputField">{{ outputText }}</output>
-      <button type="submit">Send</button>
+      <button type="submit">Generate</button>
     </form>
   </div>
   <div class="editor-container">
+
+    <label for="emailField">Email Address:</label>
+    <input type="text" id="emailField" [(ngModel)]="emailAddress" name="emailAddress" placeholder="Enter your email address here" required>
+
+    <label for="subjectField">Subject:</label>
+    <input type="text" id="subjectField" [(ngModel)]="subjectText" name="subjectText" placeholder="Enter your subject here" required>
+
+
     <label for="outputField">Editor:</label>
     <div>
       <angular-editor placeholder="Text will be generated" [(ngModel)]="outputText" [config]="editorConfig"></angular-editor>

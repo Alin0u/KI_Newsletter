@@ -12,6 +12,12 @@ import { AngularEditorConfig } from '@kolkov/angular-editor';
 export class NewsletterCreationComponent {
   inputText: string = '';
   outputText: string = '';
+  subjectText: string = '';
+  emailAddress: string = '';
+
+  selectedStyle: string = 'standard';
+
+  chosenLenght: string = 'normal';
 
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -39,7 +45,7 @@ export class NewsletterCreationComponent {
    */
   sendData() {
     // alert('Data has been sent. It will take a moment to generate the newsletter');
-    this.nlpService.generateNewsletter(this.inputText).subscribe(
+    this.nlpService.generateNewsletter(this.selectedStyle, this.chosenLenght, this.inputText).subscribe(
       (response) => {
         this.outputText = response;
       },
@@ -51,7 +57,7 @@ export class NewsletterCreationComponent {
 
   sendMail() {
     // TODO: implement -> deleted the Form in the HTML file, because it influenced the editor's input
-    this.mailService.sendMailToBackend(this.outputText).subscribe(
+    this.mailService.sendMailToBackend(this.emailAddress, this.subjectText, this.outputText).subscribe(
       (response) => {
         console.log('Mail sent successfully!', response); //TODO Add Toast
         window.alert('E-Mail erfolgreich gesendet!');

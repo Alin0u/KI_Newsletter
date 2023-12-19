@@ -34,23 +34,26 @@ public class NlpService {
      *
      * @param modelName The name of the GPT-3.5 Turbo model to use for text generation.
      * @param prompt    The text prompt to use for text generation.
-     * @return          The generated text as a JSON string, as returned by the GPT-3.5 Turbo API.
+     * @return The generated text as a JSON string, as returned by the GPT-3.5 Turbo API.
      * @throws RuntimeException If there is a problem serializing the request body to JSON.
-     *
-     * Usage:
-     * <pre>{@code
-     *   // Example curl command for testing:
-     *   // curl -X POST http://localhost:8080/api/text-generation/generate -H "Content-Type: application/json" -d "{\"prompt\": \"New collection umbrellas, pink, green, colourful\"}"
-     * }</pre>
+     *                          <p>
+     *                          Usage:
+     *                          <pre>{@code
+     *                            // Example curl command for testing:
+     *                            // curl -X POST http://localhost:8080/api/text-generation/generate -H "Content-Type: application/json" -d "{\"prompt\": \"New collection umbrellas, pink, green, colourful\"}"
+     *                          }</pre>
      */
-    public String generateText(String modelName, String prompt) {
+    public String generateText(String modelName, String prompt, String style, String lenght) {
         if (apiToken == null) {
             // TODO: get from frontend
+
         }
         Map<String, Object> requestBody = Map.of(
-                "model", GPT_3_5_TURBO, // TODO: Dropdown
-                "messages", List.of( // TODO: Change language if needed of 'system'
-                        Map.of("role", "system", "content", "You are a newsletter-specialist who writes Newsletter-Mails out of keywords and/or phrases."),
+                "model", GPT_3_5_TURBO,
+                "messages", List.of(
+                        Map.of("role", "system", "content",
+                                "As an expert in newsletter creation, your task is to develop a professional newsletter that is engaging and effectively integrates specified keywords and phrases. Please format the email in an attractive manner " +
+                                        "The tone of the newsletter should be " + style + " and the lenght should be " + lenght + "."),
                         Map.of("role", "user", "content", prompt)
                 ),
                 "temperature", 0.7

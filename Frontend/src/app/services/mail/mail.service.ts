@@ -11,7 +11,7 @@ export class MailService {
 
   // Liste mit Test-E-Mail-Adressen
   private testEmailAdresses: string[] = [ //TODO delete at the end
-    "test@mail.com"
+    "simbis@mailbox.org"
   ];
 
 
@@ -33,24 +33,27 @@ export class MailService {
     };
   }
 
-  /**
-   * Sends an email using the provided text.
-   *
-   * @param text - The main content of the email.
-   * @returns An Observable with the result of the HTTP request.
-   */
-  sendMailToBackend(text: string): Observable<any>{
+
+  sendMailToBackend(emailAddresses: string, subject: string, text: string): Observable<any>{
     const url = `${this.baseUrl}/send`;
-    const mailRequest = this.createMailRequest(this.testEmailAdresses, "test", text);//TODO add MailAdressse from ContactList
+    const emailAddressesList = this.getEmailAddressesFromString(emailAddresses); // Convert the string to an array
+
+    const mailRequest = this.createMailRequest(emailAddressesList, subject, text);//TODO add MailAdressse from ContactList
 
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + window.btoa('user:password')
     });
 
-    return this.http.post(url, { tos: mailRequest.tos, subject: "Newsletter", text: mailRequest.text }, { headers });
+    return this.http.post(url, { tos: mailRequest.tos, subject: mailRequest.subject, text: mailRequest.text }, { headers });
+  }
+
+  getEmailAddressesFromString(emailAddresses: string): string[] {
+    const emailAddressesArray = emailAddresses.split(';').map(email => email.trim());
+    return emailAddressesArray.filter(email => email.length > 0);
   }
 }
+
 
 // Interface representing the structure of a mail request
 interface MailRequest {
