@@ -1,0 +1,26 @@
+.loading-dialog {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.25);
+  opacity: 0.9;
+}
+
+.loading-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: #48664c;
+}
+
+.loading-spinner mat-spinner {
+  margin-right: 10px;
+}
+
+.mat-spinner {
+  color: #48664c;
+}

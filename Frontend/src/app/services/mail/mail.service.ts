@@ -6,13 +6,8 @@ import { Observable } from "rxjs";
   providedIn: 'root'
 })
 export class MailService {
-// Base URL for the mail API
   private baseUrl = 'http://localhost:8080/api/mail'; //TODO change URL
 
-  // Liste mit Test-E-Mail-Adressen
-  private testEmailAdresses: string[] = [ //TODO delete at the end
-    "simbis@mailbox.org"
-  ];
 
 
   constructor(private http: HttpClient) { }
@@ -49,7 +44,7 @@ export class MailService {
   }
 
   getEmailAddressesFromString(emailAddresses: string): string[] {
-    const emailAddressesArray = emailAddresses.split(';').map(email => email.trim());
+    const emailAddressesArray = emailAddresses.split(',').map(email => email.trim());
     return emailAddressesArray.filter(email => email.length > 0);
   }
 }

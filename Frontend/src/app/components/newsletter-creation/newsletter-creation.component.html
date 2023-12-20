@@ -32,6 +32,10 @@
     <label for="emailField">Email Address:</label>
     <input type="text" id="emailField" [(ngModel)]="emailAddress" name="emailAddress" placeholder="Enter your email address here" required>
 
+    <button type="button" class="additional-button" (click)="getContactLists()">Contact Lists</button>
+
+
+
     <label for="subjectField">Subject:</label>
     <input type="text" id="subjectField" [(ngModel)]="subjectText" name="subjectText" placeholder="Enter your subject here" required>
 
@@ -41,7 +45,7 @@
       <angular-editor placeholder="Text will be generated" [(ngModel)]="outputText" [config]="editorConfig"></angular-editor>
     </div>
     <form (ngSubmit)="sendMail()">
-      <button type="submit">Send Mail</button>
+      <button type="submit" [disabled]="!emailAddress || !subjectText">Send Mail</button>
     </form>
   </div>
 </div>
