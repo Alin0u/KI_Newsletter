@@ -15,11 +15,13 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { ContactlistComponent } from './components/contactlist/contactlist.component';
 import {MailService} from "./services/mail/mail.service";
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const appRoute: Routes = [
   {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
   {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]},
-  {path: 'contactlist', component: ContactlistComponent}
+  {path: 'contactlist', component: ContactlistComponent},
+  {path: 'dashboard', component: DashboardComponent}
 ]
 
 @NgModule({
@@ -30,7 +32,8 @@ const appRoute: Routes = [
     NewsletterCreationComponent,
     LoginComponent,
     MenubarComponent,
-    ContactlistComponent
+    ContactlistComponent,
+    DashboardComponent
   ],
   imports: [
     ReactiveFormsModule,
