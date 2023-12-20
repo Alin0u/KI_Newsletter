@@ -3,7 +3,7 @@
 ![GitHub top language](https://img.shields.io/github/languages/top/Alin0u/AI_Newsletter)
 ![GitHub last commit](https://img.shields.io/github/last-commit/Alin0u/AI_Newsletter)
 
-# AI_Newsletter
+# KI_Newsletter
 
 #### Contents
 
