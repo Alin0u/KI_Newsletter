@@ -4,10 +4,9 @@
   gap: 20px;
   flex-wrap: wrap;
   margin-top: 2%;
-  margin-bottom: 5%;
+  margin-bottom: 10%;
 }
 
-/* Allgemeine Stilregeln für Dropdowns */
 select {
   padding: 10px;
   margin-bottom: 20px;
@@ -15,10 +14,8 @@ select {
   border-radius: 4px;
   font-size: 16px;
   background-color: white;
-  /* Weitere gewünschte Stileigenschaften hier */
 }
 
-/* Stil für das Dropdown-Label */
 label[for="styleDropdown"], label[for="lengthDropdown"] {
   display: block;
   margin-bottom: 5px;
@@ -26,10 +23,8 @@ label[for="styleDropdown"], label[for="lengthDropdown"] {
   color: #333;
 }
 
-/* Stil für die Dropdown-Optionen */
 select option {
   font-size: 16px;
-  /* Weitere gewünschte Stileigenschaften hier */
 }
 
 .input-container {
@@ -66,7 +61,6 @@ select option {
 .angular-editor-wrapper img {
   max-width: 50%;
 }
-
 
 form {
   display: flex;

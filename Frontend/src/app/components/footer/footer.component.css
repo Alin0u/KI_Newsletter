@@ -6,7 +6,7 @@
   z-index: 1000;
   height: auto;
   background-color: transparent;
-  position: absolute;
+  position: fixed;
 }
 
 .footer svg {
