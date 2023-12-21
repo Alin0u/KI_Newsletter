@@ -27,7 +27,7 @@ public class CustomUserDetailsServiceTest {
     @Test
     public void whenValidUsername_thenUserShouldBeFound() {
         String username = "testUser";
-        User mockUser = new User(username, "password", "ROLE_USER");
+        User mockUser = new User(username, "password");
         when(userRepository.findByUsername(username)).thenReturn(Optional.of(mockUser));
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);

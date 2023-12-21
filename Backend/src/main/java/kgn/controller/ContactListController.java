@@ -31,7 +31,7 @@ public class ContactListController {
      *
      * @return Username of the authenticated user.
      */
-    private String getCurrentUsername() {
+    public static String getCurrentUsername() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         return authentication.getName();
     }

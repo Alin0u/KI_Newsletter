@@ -42,7 +42,6 @@ public class FileService {
                         String content = new String(Files.readAllBytes(path));
                         return new ContactListData(path.getFileName().toString(), content);
                     } catch (IOException e) {
-                        // Fehlerbehandlung hier
                         throw new RuntimeException("Error reading file: " + path, e);
                     }
                 })

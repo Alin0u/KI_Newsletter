@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 public class HomeController {
-    // TODO: configure properly
     @GetMapping("/")
     public String home() {
         return "Welcome to KiGestaerkteNewsletter!";

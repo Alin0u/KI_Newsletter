@@ -31,7 +31,7 @@ public class AuthControllerTest {
 
     @Test
     public void whenValidCredentials_thenReturnsJwtResponse() {
-        UserLoginDto loginDto = new UserLoginDto("user", "password", "role");
+        UserLoginDto loginDto = new UserLoginDto("user", "password");
         Authentication authentication = mock(Authentication.class);
         when(authenticationManager.authenticate(any())).thenReturn(authentication);
 
