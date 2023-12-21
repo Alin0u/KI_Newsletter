@@ -10,14 +10,16 @@ export class NlpService {
 
   constructor(private http: HttpClient) { }
 
-  generateNewsletter(prompt: string): Observable<string> {
+  generateNewsletter(style: string, length: string, prompt: string): Observable<string> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'Authorization': 'Basic ' + window.btoa('user:password')
     });
 
     const requestBody = {
-      prompt: prompt
+      prompt: prompt,
+      style: style,
+      length: length,
     };
 
     return this.http.post(this.apiUrl, requestBody, { headers: headers, responseType: 'text' });

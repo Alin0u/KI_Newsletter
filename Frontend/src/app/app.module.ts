@@ -15,6 +15,13 @@ import { AuthGuardService } from './services/auth-guard.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { ContactlistComponent } from './components/contactlist/contactlist.component';
 import {MailService} from "./services/mail/mail.service";
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { ContactListDialogComponent } from './components/contact-list-dialog/contact-list-dialog.component';
+import {MatListModule} from "@angular/material/list";
+import { MatDialogModule } from '@angular/material/dialog';
+import { AppLoadingComponent } from './components/app-loading/app-loading.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const appRoute: Routes = [
@@ -33,6 +40,9 @@ const appRoute: Routes = [
     LoginComponent,
     MenubarComponent,
     ContactlistComponent,
+    ContactListDialogComponent,
+    AppLoadingComponent,
+    ContactlistComponent,
     DashboardComponent
   ],
   imports: [
@@ -41,7 +51,12 @@ const appRoute: Routes = [
     FormsModule,
     HttpClientModule,
     AngularEditorModule,
-    RouterModule.forRoot(appRoute)
+    RouterModule.forRoot(appRoute),
+    NoopAnimationsModule,
+    MatListModule,
+    MatProgressSpinnerModule,
+    MatSnackBarModule,
+    MatDialogModule
   ],
   exports: [
     RouterModule
