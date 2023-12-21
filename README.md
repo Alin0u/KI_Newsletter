@@ -1,13 +1,13 @@
-`ToDo`
-![GitHub repo size](https://img.shields.io/github/repo-size/Alin0u/AI_Newsletter)
-![GitHub top language](https://img.shields.io/github/languages/top/Alin0u/AI_Newsletter)
-![GitHub last commit](https://img.shields.io/github/last-commit/Alin0u/AI_Newsletter)
+![GitHub repo size](https://img.shields.io/github/repo-size/Alin0u/KI_Newsletter)
+![GitHub license](https://img.shields.io/github/license/Alin0u/KI_Newsletter)
+![GitHub top language](https://img.shields.io/github/languages/top/Alin0u/KI_Newsletter)
+![GitHub last commit](https://img.shields.io/github/last-commit/Alin0u/KI_Newsletter)
 
 # KI_Newsletter
 
 #### Contents
 
-- [AI_Newsletter](#ai_newsletter)
+- [KI_Newsletter](#aki_newsletter)
 - [System Details](#system-details)
 - [Branching Model and Naming](#branching-model-and-naming)
 - [Commit Messages](#commit-messages)
