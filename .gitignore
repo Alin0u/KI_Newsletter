@@ -1,0 +1,51 @@
+# Backend
+application-secure.properties
+/Backend/target/
+app.pub
+app.key
+
+# Frontend
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/Frontend/dist
+/Frontend/tmp
+/Frontend/out-tsc
+/bazel-out
+
+# Node
+/Frontend/node_modules
+npm-debug.log
+yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+*.class
+.c9/
+.vscode
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/Frontend/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+/Frontend/.history/*
+
+# Miscellaneous
+/Frontend/.angular/cache
+.sass-cache/
+/Frontend/connect.lock
+/Frontend/coverage
+/Frontend/libpeerconnection.log
+testem.log
+/Frontend/typings
+
+# System files
+.DS_Store
+Thumbs.db

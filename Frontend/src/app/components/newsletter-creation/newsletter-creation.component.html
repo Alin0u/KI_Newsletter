@@ -1,0 +1,51 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<div class="containers">
+  <div class="input-container">
+    <form (ngSubmit)="sendData()">
+      <label for="inputField">Input:</label>
+      <input type="text" id="inputField" [(ngModel)]="inputText" name="inputText" placeholder="Input your keywords for the newsletter generation" required>
+
+      <label for="styleDropdown">Style:</label>
+      <select id="styleDropdown" [(ngModel)]="selectedStyle" name="selectedStyle">
+        <option value="standard">Standard</option>
+        <option value="funny">Funny</option>
+        <option value="serious">Serious</option>
+        <option value="professional">Professional</option>
+      </select>
+
+      <label for="lengthDropdown">Length:</label>
+      <select id="lengthDropdown" [(ngModel)]="chosenLength" name="chosenLength">
+        <option value="short">Short</option>
+        <option value="normal">Normal</option>
+        <option value="sensitively">Sensitively</option>
+      </select>
+
+      <label for="outputField">Output:</label>
+      <output id="outputField">{{ outputText }}</output>
+      <button type="submit">Generate</button>
+    </form>
+  </div>
+  <div class="editor-container">
+
+    <label for="emailField">Email Address:</label>
+    <input type="text" id="emailField" [(ngModel)]="emailAddress" name="emailAddress" placeholder="Enter your email address here" required>
+
+    <button type="button" class="additional-button" (click)="getContactLists()">Contact Lists</button>
+
+
+
+    <label for="subjectField">Subject:</label>
+    <input type="text" id="subjectField" [(ngModel)]="subjectText" name="subjectText" placeholder="Enter your subject here" required>
+
+
+    <label for="outputField">Editor:</label>
+    <div>
+      <angular-editor placeholder="Text will be generated" [(ngModel)]="outputText" [config]="editorConfig"></angular-editor>
+    </div>
+    <form (ngSubmit)="sendMail()">
+      <button type="submit" [disabled]="!emailAddress || !subjectText">Send Mail</button>
+    </form>
+  </div>
+</div>
