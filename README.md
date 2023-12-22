@@ -18,7 +18,7 @@
 
 ## System Details
 
-Version 0.8.7
+Version 1.0.0
 
 Programming languages: JavaScript, HTML, CSS
 
