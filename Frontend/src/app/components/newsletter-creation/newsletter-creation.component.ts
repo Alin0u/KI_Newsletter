@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NlpService } from 'src/app/services/nlp.service';
-import { MailService } from 'src/app/services/mail/mail.service';
+import { MailService } from 'src/app/services/mail.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ContactListService } from 'src/app/services/contact-list.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,7 +30,7 @@ export class NewsletterCreationComponent {
 
   selectedStyle: string = 'standard';
 
-  chosenLenght: string = 'normal';
+  chosenLength: string = 'normal';
 
   editorConfig: AngularEditorConfig = {
     editable: true,
@@ -49,7 +49,16 @@ export class NewsletterCreationComponent {
     ]
   };
 
-
+  /**
+   * Constructs the NewsletterCreationComponent.
+   *
+   * @param nlpService Service to handle Natural Language Processing operations.
+   * @param mailService Service to handle email sending functionalities.
+   * @param contactListService Service to manage contact lists.
+   * @param dialog Service to handle Angular Material Dialogs.
+   * @param snackBar Service to display snack bar notifications.
+   * @param textProcessingService Service to process text data.
+   */
   constructor(
     private nlpService: NlpService,
     private mailService: MailService,
@@ -69,7 +78,7 @@ export class NewsletterCreationComponent {
       disableClose: true
     });
 
-    this.nlpService.generateNewsletter(this.selectedStyle, this.chosenLenght, this.inputText).subscribe(
+    this.nlpService.generateNewsletter(this.selectedStyle, this.chosenLength, this.inputText).subscribe(
       (response) => {
         const processedData = this.textProcessingService.processOutputTextForSubject(response);
         this.subjectText = processedData.subject;

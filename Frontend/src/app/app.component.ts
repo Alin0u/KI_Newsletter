@@ -21,6 +21,4 @@ export class AppComponent implements OnInit {
       this.showMenuBar = this.activatedRoute.firstChild?.snapshot.data['showMenuBar'] !== false;
     });
   }
-
-
 }

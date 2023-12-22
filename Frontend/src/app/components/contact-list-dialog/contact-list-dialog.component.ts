@@ -5,9 +5,6 @@ export interface DialogData {
   contactLists: any[];
 }
 
-/**
- * A component for displaying a dialog with contact lists.
- */
 @Component({
   selector: 'app-contact-list-dialog',
   templateUrl: './contact-list-dialog.component.html',

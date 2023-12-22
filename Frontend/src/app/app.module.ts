@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router'
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AngularEditorModule } from '@kolkov/angular-editor';
-
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MenubarComponent } from './components/menubar/menubar.component';
@@ -14,10 +13,10 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthGuardService } from './services/auth-guard.service';
 import { TokenInterceptor } from './services/token.interceptor';
 import { ContactlistComponent } from './components/contactlist/contactlist.component';
-import {MailService} from "./services/mail/mail.service";
+import { MailService } from "./services/mail.service";
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ContactListDialogComponent } from './components/contact-list-dialog/contact-list-dialog.component';
-import {MatListModule} from "@angular/material/list";
+import { MatListModule } from "@angular/material/list";
 import { MatDialogModule } from '@angular/material/dialog';
 import { AppLoadingComponent } from './components/app-loading/app-loading.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -26,11 +25,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SettingsComponent } from './components/settings/settings.component';
 
 const appRoute: Routes = [
-  {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
+  {path: 'login', component: LoginComponent, data: { showMenuBar: false }},
   {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]},
-  {path: 'contactlist', component: ContactlistComponent},
-  {path: 'dashboard', component: DashboardComponent},
-  {path: 'settings', component: SettingsComponent}
+  {path: 'contactlist', component: ContactlistComponent, canActivate: [AuthGuardService]},
+  {path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService]},
+  {path: 'settings', component: SettingsComponent, canActivate: [AuthGuardService]}
 ]
 
 @NgModule({

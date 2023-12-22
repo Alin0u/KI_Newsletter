@@ -8,8 +8,6 @@ import { Observable } from "rxjs";
 export class MailService {
   private baseUrl = 'http://localhost:8080/api/mail'; //TODO change URL
 
-
-
   constructor(private http: HttpClient) { }
 
   /**
@@ -27,7 +25,6 @@ export class MailService {
       text: text
     };
   }
-
 
   sendMailToBackend(emailAddresses: string, subject: string, text: string): Observable<any>{
     const url = `${this.baseUrl}/send`;
@@ -49,8 +46,6 @@ export class MailService {
   }
 }
 
-
-// Interface representing the structure of a mail request
 interface MailRequest {
   tos: string[];
   subject: string;

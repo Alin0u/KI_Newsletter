@@ -49,23 +49,19 @@ public class NlpService {
      *                            // curl -X POST http://localhost:8080/api/text-generation/generate -H "Content-Type: application/json" -d "{\"prompt\": \"New collection umbrellas, pink, green, colourful\"}"
      *                          }</pre>
      */
-    public String generateText(String modelName, String prompt, String style, String lenght) {
+    public String generateText(String modelName, String prompt, String style, String length) {
 
         String apiToken = getApiTokenForCurrentUser();
         if (apiToken == null || apiToken.isEmpty()) {
             throw new IllegalStateException("API token for current user is not available.");
         }
 
-        if (apiToken == null) {
-            // TODO: get from frontend
-
-        }
         Map<String, Object> requestBody = Map.of(
                 "model", GPT_3_5_TURBO,
                 "messages", List.of(
                         Map.of("role", "system", "content", "You are a newsletter-specialist who writes Newsletter-Mails out of keywords and/or phrases."),
                         Map.of("role", "system", "content", "The newsletter must be formatted in HTML and always needs a subject, marked with 'Subject:'."),
-                        Map.of("role", "system", "content", "The tone of the newsletter should be " + style + " and the length should be " + lenght + "."),
+                        Map.of("role", "system", "content", "The tone of the newsletter should be " + style + " and the length should be " + length + "."),
                         Map.of("role", "system", "content", "Your objective is to generate newsletters that avoid any words or phrases prone to triggering spam filters."),
                         Map.of("role", "system", "content", "Additionally, each newsletter must conclude with a clear option for subscribers to unsubscribe easily. Please include a note at the end of each email"),
                         Map.of("role", "user", "content", prompt)
