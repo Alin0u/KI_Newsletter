@@ -1,0 +1,25 @@
+<div class="containers">
+  <div class="input-container">
+    <form (ngSubmit)="submitSettings()">
+      <label for="email">E-Mail</label>
+      <input id="email" type="email" [(ngModel)]="settings.mail" name="mail">
+
+      <label for="password">Password</label>
+      <input id="password" type="password" [(ngModel)]="settings.mailpassword" name="mailpassword">
+
+      <label for="smtp-port">SMTP Port</label>
+      <input id="smtp-port" type="number" [(ngModel)]="settings.mailport" name="mailport">
+
+      <label for="smtp-server">SMTP Server</label>
+      <input id="smtp-server" type="text" [(ngModel)]="settings.mailserver" name="mailserver">
+
+      <label for="openai-key">OpenAI API Key</label>
+      <input id="openai-key" type="password" [(ngModel)]="settings.openaikey" name="openaikey">
+
+      <label for="sendgrid-key">SendGrid Key</label>
+      <input id="sendgrid-key" type="password" [(ngModel)]="settings.sendgridkey" name="sendgridkey">
+
+      <button type="submit">Send</button>
+    </form>
+  </div>
+</div>

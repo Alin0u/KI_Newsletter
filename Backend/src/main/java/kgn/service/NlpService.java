@@ -2,9 +2,12 @@ package kgn.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import kgn.controller.ContactListController;
 import kgn.dto.OpenAiResponse;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import kgn.repository.UserRepository;
+import kgn.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -20,11 +23,14 @@ import java.util.Map;
  * @see <a href="https://platform.openai.com/docs/guides/gpt">OpenAI GPT-3 Guide</a>
  */
 @Service
-@RequiredArgsConstructor
 public class NlpService {
+    @Autowired
+    UserRepository userRepository;
+
     public static final String GPT_3_5_TURBO = "gpt-3.5-turbo";
-    @Value("${spring.ai.openai.api-key}")
     private String apiToken;
+
+    public NlpService(){}
 
     private final String CHATGPT_API_URL = "https://api.openai.com/v1/chat/completions";
 
@@ -44,6 +50,12 @@ public class NlpService {
      *                          }</pre>
      */
     public String generateText(String modelName, String prompt, String style, String lenght) {
+
+        String apiToken = getApiTokenForCurrentUser();
+        if (apiToken == null || apiToken.isEmpty()) {
+            throw new IllegalStateException("API token for current user is not available.");
+        }
+
         if (apiToken == null) {
             // TODO: get from frontend
 
@@ -52,8 +64,8 @@ public class NlpService {
                 "model", GPT_3_5_TURBO,
                 "messages", List.of(
                         Map.of("role", "system", "content", "You are a newsletter-specialist who writes Newsletter-Mails out of keywords and/or phrases."),
-                        Map.of("role", "system", "content", "The newsletter must be formatted in HTML"),
-                        Map.of("role", "system", "content", "The tone of the newsletter should be " + style + " and the lenght should be " + lenght + "."),
+                        Map.of("role", "system", "content", "The newsletter must be formatted in HTML and always needs a subject, marked with 'Subject:'."),
+                        Map.of("role", "system", "content", "The tone of the newsletter should be " + style + " and the length should be " + lenght + "."),
                         Map.of("role", "system", "content", "Your objective is to generate newsletters that avoid any words or phrases prone to triggering spam filters."),
                         Map.of("role", "system", "content", "Additionally, each newsletter must conclude with a clear option for subscribers to unsubscribe easily. Please include a note at the end of each email"),
                         Map.of("role", "user", "content", prompt)
@@ -107,5 +119,25 @@ public class NlpService {
         }
 
         return "No content available";
+    }
+
+    /**
+     * Retrieves the OpenAI API token for the currently authenticated user.
+     * This method finds the user based on the current username obtained from the security context
+     * and returns the OpenAI API key associated with that user.
+     *
+     * @return The OpenAI API key for the current user.
+     * @throws IllegalStateException if there is no current username available in the security context.
+     * @throws UsernameNotFoundException if the user with the current username is not found in the database.
+     */
+    private String getApiTokenForCurrentUser() {
+        String currentUsername = ContactListController.getCurrentUsername();
+        if (currentUsername == null || currentUsername.isEmpty()) {
+            throw new IllegalStateException("Current username is not available.");
+        }
+
+        return userRepository.findByUsername(currentUsername)
+                .map(User::getOpenaikey)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + currentUsername));
     }
 }

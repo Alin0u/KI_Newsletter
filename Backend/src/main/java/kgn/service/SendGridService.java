@@ -1,8 +1,12 @@
 package kgn.service;
 
 import com.sendgrid.helpers.mail.objects.Personalization;
+import kgn.controller.ContactListController;
+import kgn.model.User;
+import kgn.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import com.sendgrid.SendGrid;
 import com.sendgrid.helpers.mail.Mail;
@@ -16,23 +20,13 @@ import java.util.List;
 
 @Service
 public class SendGridService {
-    private final SendGrid sendGrid;
-    private final String fromEmail;
+    @Autowired
+    UserRepository userRepository;
 
+    private SendGrid sendGrid;
+    private String fromEmail;
 
-    /**
-     * Constructor for the SendGridService class.
-     *
-     * @param sendGrid   The SendGrid bean automatically created by Spring Boot.
-     * @param fromEmail  The sender's email address read from application.properties.
-     */
-    public SendGridService(
-            @Autowired SendGrid sendGrid,
-            @Value("${twilio.sendgrid.from-email}") String fromEmail
-    ) {
-        this.sendGrid = sendGrid;
-        this.fromEmail = fromEmail;
-    }
+    public SendGridService() {}
 
     /**
      * Sends the specified email using the SendGrid API.
@@ -41,21 +35,17 @@ public class SendGridService {
      */
     private void sendEmailToSendGrid(Mail mail) {
         try {
-            // set the SendGrid API endpoint details as described
             Request request = new Request();
             request.setMethod(Method.POST);
             request.setEndpoint("mail/send");
             request.setBody(mail.build());
 
-            // perform the request and send the email
             Response response = sendGrid.api(request);
             int statusCode = response.getStatusCode();
-            // if the status code is not 2xx
             if (statusCode < 200 || statusCode >= 300) {
                 throw new RuntimeException(response.getBody());
             }
         } catch (IOException e) {
-            // log the error message in case of network failures
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
@@ -69,12 +59,12 @@ public class SendGridService {
      * @param text    The HTML content of the email.
      */
     public void sendBulkEmails(List<String> tos, String subject, String text) {
-        // specify the email details
+        initializeSendGrid();
+
         Mail mail = new Mail();
         mail.setFrom(new Email(this.fromEmail));
         mail.setSubject(subject);
         mail.addContent(new Content("text/html", text));
-        // add the multiple recipients to the email
         Personalization personalization = new Personalization();
         personalization.addTo(new Email(this.fromEmail));
         tos.forEach(to -> {
@@ -84,6 +74,33 @@ public class SendGridService {
         mail.addPersonalization(personalization);
 
         sendEmailToSendGrid(mail);
+    }
+
+    /**
+     * Initializes the SendGrid client using the current user's settings.
+     *
+     * @throws IllegalStateException if the current username is not available in the security context.
+     * @throws UsernameNotFoundException if the user with the current username is not found in the database.
+     */
+    private void initializeSendGrid() {
+        String currentUsername = ContactListController.getCurrentUsername();
+        if (currentUsername == null || currentUsername.isEmpty()) {
+            throw new IllegalStateException("Current username is not available.");
+        }
+        fromEmail = userRepository.findByUsername(currentUsername).get().getMail();
+        User user = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + currentUsername));
+
+        this.sendGrid = new SendGrid(user.getSendgridkey());
+    }
+
+    /**
+     * Updates the SendGrid client with a new API key.
+     *
+     * @param apiKey The new SendGrid API key to use.
+     */
+    public void updateSendGridApiKey(String apiKey) {
+        this.sendGrid = new SendGrid(apiKey);
     }
 
 }

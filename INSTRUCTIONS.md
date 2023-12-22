@@ -25,12 +25,10 @@ For the login to work properly you need a database (in our case it's a mariadb)
 2. Create a database 
 3. Create a table 'users' which looks like this:
 
-+----+--------------------------------------------------------------+-------+----------+
-| id | password                                                     | role  | username |
-+----+--------------------------------------------------------------+-------+----------+
-|  1 | hashed password                                              | admin | pa-admin |
-|  2 | hashed password                                              | user  | pa-user  |
-+----+--------------------------------------------------------------+-------+----------+
+| id          | password          | role  | username | mail | mailserver | mailpassword | mailport | openaikey | sendgridkey |
+|:------------|:------------------|:------|:---------|:-----|:-----------|:-------------|:---------|:----------|:------------|
+| 1           | hashed password   | admin | pa-admin | mailaddress | smpt.mailserver | password | 587 | key | key |
+| 2           | hashed password   | user  | pa-user  | mailaddress | smtp.mailserver | password | 587 | key | key |
 
 A hashed password can be generated here: [Bcrypt Password-Generator](https://bcrypt-generator.com/)
 
@@ -40,10 +38,6 @@ spring.jpa.hibernate.ddl-auto=update
 spring.datasource.url=jdbc:mariadb://localhost:3306/<database_name>
 spring.datasource.username=<database_username>
 spring.datasource.password=<database_password>
-
-## No Database available (just for developement)
-
-Will be implemented soon
 
 ## PublicKey & PrivateKey
 

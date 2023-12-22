@@ -3,11 +3,13 @@ package kgn.controller;
 
 import jakarta.mail.MessagingException;
 import kgn.MailRequest;
+import kgn.model.User;
+import kgn.repository.UserRepository;
 import kgn.service.MailService;
 import kgn.service.SendGridService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,22 +23,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/mail")
 public class MailController {
 
-    private final MailService mailService;
-    private final SendGridService sendGridService;
+    private MailService mailService;
+    private SendGridService sendGridService;
 
-    @Value("${spring.sendgrid.api-key}")
-    private String sendGridApiKey;
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Constructor to inject the MailService dependency.
      *
      * @param mailService The MailService used to send emails.
      */
-    @Autowired
-    public MailController(
-            MailService mailService,
-            @Autowired SendGridService sendGridService
-    ) {
+    public MailController(MailService mailService, SendGridService sendGridService) {
         this.mailService = mailService;
         this.sendGridService = sendGridService;
     }
@@ -49,25 +47,28 @@ public class MailController {
      */
     @PostMapping("/send")
     public ResponseEntity<String> sendMail(@RequestBody MailRequest mailRequest) {
-        if(isSendGridApiKeySet()){
+        String currentUsername = ContactListController.getCurrentUsername();
+        if (currentUsername == null || currentUsername.isEmpty()) {
+            throw new IllegalStateException("Current username is not available.");
+        }
+
+        User user = userRepository.findByUsername(currentUsername)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + currentUsername));
+
+        String sendGridApiKey = user.getSendgridkey();
+
+        if (sendGridApiKey != null && !sendGridApiKey.isEmpty()) {
+            sendGridService.updateSendGridApiKey(sendGridApiKey);
             sendGridService.sendBulkEmails(mailRequest.getTos(), mailRequest.getSubject(), mailRequest.getText());
-            return ResponseEntity.ok("{\"message\": \"E-Mail erfolgreich über sendGrid gesendet!\"}");
-        }else{
+            return ResponseEntity.ok("{\"message\": \"E-Mail successfully sent via SendGrid!\"}");
+        } else {
             try {
                 mailService.sendMails(mailRequest.getTos(), mailRequest.getSubject(), mailRequest.getText());
+                return ResponseEntity.ok("{\"message\": \"E-Mail successfully sent!\"}");
             } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
-            return ResponseEntity.ok("{\"message\": \"E-Mail erfolgreich gesendet!\"}");
         }
     }
 
-    /**
-     * Checks if the SendGrid API key is set.
-     *
-     * @return {@code true} if the SendGrid API key is set and not empty, {@code false} otherwise.
-     */
-    private boolean isSendGridApiKeySet() {
-        return sendGridApiKey != null && !sendGridApiKey.isEmpty();
-    }
 }

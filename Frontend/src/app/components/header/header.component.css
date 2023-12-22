@@ -46,3 +46,23 @@
   max-height: 50px;
   margin-left: 10px;
 }
+
+.settings-button {
+  background: transparent;
+  border: none;
+  color: inherit;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.settings-button img {
+  margin-right: 5px;
+}
+
+.buttons-container {
+  display: flex;
+  align-items: center;
+  margin-right: 2%;
+}

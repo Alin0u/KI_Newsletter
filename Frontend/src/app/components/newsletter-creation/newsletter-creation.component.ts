@@ -4,11 +4,10 @@ import { MailService } from 'src/app/services/mail/mail.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ContactListService } from 'src/app/services/contact-list.service';
 import { MatDialog } from '@angular/material/dialog';
-import {ContactListDialogComponent} from "../contact-list-dialog/contact-list-dialog.component";
-import {AppLoadingComponent} from "../app-loading/app-loading.component";
+import { ContactListDialogComponent } from "../contact-list-dialog/contact-list-dialog.component";
+import { AppLoadingComponent } from "../app-loading/app-loading.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-
+import { TextProcessingService } from "../../services/text-processing.service";
 
 /**
  * Component for creating and sending newsletters.
@@ -27,6 +26,7 @@ export class NewsletterCreationComponent {
   outputText: string = '';
   subjectText: string = '';
   emailAddress: string = '';
+
 
   selectedStyle: string = 'standard';
 
@@ -55,7 +55,8 @@ export class NewsletterCreationComponent {
     private mailService: MailService,
     private contactListService: ContactListService,
     public dialog: MatDialog,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private textProcessingService: TextProcessingService
   ) {}
 
   /**
@@ -65,17 +66,21 @@ export class NewsletterCreationComponent {
   sendData() {
     const dialogRef = this.dialog.open(AppLoadingComponent, {
       width: '250px',
-      disableClose: true // Verhindert, dass Benutzer den Dialog schließen
+      disableClose: true
     });
 
     this.nlpService.generateNewsletter(this.selectedStyle, this.chosenLenght, this.inputText).subscribe(
       (response) => {
-        this.outputText = response;
-        dialogRef.close(); // Schließt den Dialog
+        const processedData = this.textProcessingService.processOutputTextForSubject(response);
+        this.subjectText = processedData.subject;
+        this.outputText = processedData.updatedOutput;
+
+        dialogRef.close();
       },
       (error) => {
         console.error('There was an error!', error);
-        dialogRef.close(); // Schließt den Dialog auch im Fehlerfall
+        alert("Please fill out your settings properly");
+        dialogRef.close();
       }
     );
   }
@@ -87,7 +92,6 @@ export class NewsletterCreationComponent {
    * Alerts the user upon success or failure of the email sending process.
    */
   sendMail() {
-    // TODO: implement -> deleted the Form in the HTML file, because it influenced the editor's input
     this.mailService.sendMailToBackend(this.emailAddress, this.subjectText, this.outputText).subscribe(
       (response) => {
         console.log('Mail sent successfully!', response);

@@ -31,6 +31,10 @@ import org.springframework.security.oauth2.server.resource.authentication.JwtGra
 import org.springframework.security.oauth2.server.resource.web.BearerTokenAuthenticationEntryPoint;
 import org.springframework.security.oauth2.server.resource.web.access.BearerTokenAccessDeniedHandler;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.session.SessionManagementFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -83,14 +87,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
      */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // TODO: tighten for security reasons
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200") // TODO: change to url when installed
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // TODO: change to GET & POST
-                .allowedHeaders("*") // TODO: "Content-Type", "Authorization"
-                // TODO: .exposedHeaders("Custom-Header1", "Custom-Header2")
+                .allowedOrigins("http://localhost:4200")
+                .allowedMethods("GET", "POST")
+                .allowedHeaders("Content-Type", "Authorization")
                 .allowCredentials(true);
-                // TODO: .maxAge(1800); -> 30 Min
     }
 
     /**
@@ -108,10 +109,11 @@ public class WebSecurityConfig implements WebMvcConfigurer {
         jwtAuthenticationProvider.setJwtAuthenticationConverter(jwtAuthenticationConverter());
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/login", "/api/auth","/api/list", "/api/list/{filename}", "api/text-generation/generate").permitAll()
+                        .requestMatchers("/api/auth").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.ignoringRequestMatchers("/api/auth"))
+                .addFilterBefore(corsFilter(), SessionManagementFilter.class)
                 .httpBasic(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter())))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -183,5 +185,25 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    /**
+     * Creates a CORS filter bean for handling Cross-Origin Resource Sharing (CORS) settings.
+     * This bean defines a CORS configuration that applies to all routes (/**) in the application.
+     *
+     * @return CorsFilter The configured CORS filter bean.
+     */
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.addAllowedOrigin("http://localhost:4200");
+        config.addAllowedOrigin("https://pa.tempmo.de");
+        config.addAllowedOrigin("http://pa.tempmo.de");
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("*");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }
