@@ -88,7 +88,7 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200") // TODO: change to url when installed
+                .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("Content-Type", "Authorization")
                 .allowCredentials(true);

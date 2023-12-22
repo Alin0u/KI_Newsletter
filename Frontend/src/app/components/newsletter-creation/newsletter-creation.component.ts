@@ -4,10 +4,10 @@ import { MailService } from 'src/app/services/mail/mail.service';
 import { AngularEditorConfig } from '@kolkov/angular-editor';
 import { ContactListService } from 'src/app/services/contact-list.service';
 import { MatDialog } from '@angular/material/dialog';
-import {ContactListDialogComponent} from "../contact-list-dialog/contact-list-dialog.component";
-import {AppLoadingComponent} from "../app-loading/app-loading.component";
+import { ContactListDialogComponent } from "../contact-list-dialog/contact-list-dialog.component";
+import { AppLoadingComponent } from "../app-loading/app-loading.component";
 import { MatSnackBar } from '@angular/material/snack-bar';
-import {TextProcessingService} from "../../services/text-processing.service";
+import { TextProcessingService } from "../../services/text-processing.service";
 
 /**
  * Component for creating and sending newsletters.
@@ -71,7 +71,6 @@ export class NewsletterCreationComponent {
 
     this.nlpService.generateNewsletter(this.selectedStyle, this.chosenLenght, this.inputText).subscribe(
       (response) => {
-        // Verarbeitet den Output-Text, um das Subject zu extrahieren
         const processedData = this.textProcessingService.processOutputTextForSubject(response);
         this.subjectText = processedData.subject;
         this.outputText = processedData.updatedOutput;
@@ -80,6 +79,7 @@ export class NewsletterCreationComponent {
       },
       (error) => {
         console.error('There was an error!', error);
+        alert("Please fill out your settings properly");
         dialogRef.close();
       }
     );
@@ -92,7 +92,6 @@ export class NewsletterCreationComponent {
    * Alerts the user upon success or failure of the email sending process.
    */
   sendMail() {
-    // TODO: implement -> deleted the Form in the HTML file, because it influenced the editor's input
     this.mailService.sendMailToBackend(this.emailAddress, this.subjectText, this.outputText).subscribe(
       (response) => {
         console.log('Mail sent successfully!', response);

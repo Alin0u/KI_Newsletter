@@ -23,12 +23,14 @@ import { AppLoadingComponent } from './components/app-loading/app-loading.compon
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { SettingsComponent } from './components/settings/settings.component';
 
 const appRoute: Routes = [
   {path: 'login', component: LoginComponent, data: { showMenuBar: false } },
   {path: '', component: NewsletterCreationComponent, canActivate: [AuthGuardService]},
   {path: 'contactlist', component: ContactlistComponent},
-  {path: 'dashboard', component: DashboardComponent}
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'settings', component: SettingsComponent}
 ]
 
 @NgModule({
@@ -43,7 +45,8 @@ const appRoute: Routes = [
     ContactListDialogComponent,
     AppLoadingComponent,
     ContactlistComponent,
-    DashboardComponent
+    DashboardComponent,
+    SettingsComponent
   ],
   imports: [
     ReactiveFormsModule,

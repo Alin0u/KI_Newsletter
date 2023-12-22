@@ -2,9 +2,11 @@ package kgn.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import kgn.controller.ContactListController;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Lazy;
 
 import java.util.List;
 
@@ -15,14 +17,16 @@ import java.util.List;
 public class MailService {
     private final JavaMailSender javaMailSender;
 
+    private final MailProperties mailProperties;
+
     /**
      * Constructor to inject the JavaMailSender dependency.
      *
      * @param javaMailSender The JavaMailSender used to send emails.
      */
-
-    public MailService(JavaMailSender javaMailSender) {
+    public MailService(@Lazy JavaMailSender javaMailSender, MailProperties mailProperties) {
         this.javaMailSender = javaMailSender;
+        this.mailProperties = mailProperties;
     }
 
     /**
@@ -34,6 +38,8 @@ public class MailService {
      * @throws MessagingException If an error occurs during the messaging process.
      */
     public void sendOneMail(String to, String subject, String text) throws MessagingException {
+
+            mailProperties.loadFromDatabase(ContactListController.getCurrentUsername());
 
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
