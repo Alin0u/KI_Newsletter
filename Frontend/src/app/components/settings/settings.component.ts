@@ -8,24 +8,32 @@ import { UserSettings } from './user-settings.model';
     styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent {
-    settings: UserSettings = {
-        mail: '',
-        mailserver: '',
-        mailpassword: '',
-        mailport: 0,
-        openaikey: '',
-        sendgridkey: ''
-    };
+  settings: UserSettings = {
+    mail: '',
+    mailserver: '',
+    mailpassword: '',
+    mailport: 0,
+    openaikey: '',
+    sendgridkey: ''
+  };
 
-    constructor(private settingsService: SettingsService) {}
+  /**
+   * Constructs the SettingsComponent.
+   *
+   * @param settingsService Service to handle operations related to user settings.
+   */
+  constructor(private settingsService: SettingsService) {}
 
-    submitSettings(): void {
-        this.settingsService.submitSettings(this.settings).subscribe(
-            response => {
-                console.log('Settings updated', response);
-            },
-            (error: any) => console.error('Error updating settings', error)
-        );
-    }
-
+  /**
+   * Submits the updated settings to the server.
+   * Logs a message on successful update or an error on failure.
+   */
+  submitSettings(): void {
+      this.settingsService.submitSettings(this.settings).subscribe(
+          response => {
+              console.log('Settings updated', response);
+          },
+          (error: any) => console.error('Error updating settings', error)
+      );
+  }
 }

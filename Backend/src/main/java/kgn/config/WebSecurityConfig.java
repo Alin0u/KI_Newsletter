@@ -89,6 +89,8 @@ public class WebSecurityConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://localhost:4200")
+                .allowedOrigins("http://pa.tempmo.de")
+                .allowedOrigins("https://pa.tempmo.de")
                 .allowedMethods("GET", "POST")
                 .allowedHeaders("Content-Type", "Authorization")
                 .allowCredentials(true);

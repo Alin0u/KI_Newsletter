@@ -52,5 +52,4 @@ export class ContactListService {
   createContactList(listName: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/${listName}`, {});
   }
-
 }

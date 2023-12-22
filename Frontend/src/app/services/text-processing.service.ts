@@ -7,7 +7,6 @@ export class TextProcessingService {
 
   constructor() { }
 
-
   /**
    * Processes the provided text to extract a subject specified after a 'subject:' keyword
    * and prepares the remaining text for display by replacing line breaks with HTML <br> tags.
